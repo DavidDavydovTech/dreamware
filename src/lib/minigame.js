@@ -8,7 +8,7 @@ class MiniGame extends Container {
     app, 
     timeMod = 1, 
     update, 
-    init = (this) => { 
+    init = () => { 
       console.warn('No init provided to MiniGame') 
     },
     maxMS = 5000,
