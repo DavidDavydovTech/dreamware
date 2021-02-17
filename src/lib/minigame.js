@@ -8,7 +8,7 @@ class MiniGame extends Container {
     app, 
     timeMod = 1, 
     update, 
-    init = () => { 
+    init = (this) => { 
       console.warn('No init provided to MiniGame') 
     },
     maxMS = 5000,
@@ -45,7 +45,7 @@ class MiniGame extends Container {
   }
 
   _init = () => {
-    this.init();
+    this.init(this);
     this._tickerReference.add(this._ticker);
   }
 
