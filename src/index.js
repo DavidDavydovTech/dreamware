@@ -56,10 +56,27 @@ function init (loader, resources) {
 
   // IF YOU DELETE THIS COMMENT I WILL FUCKING END YOU BORA >:C
   // NOTE: Sytax is [ song.sound.play(); ]
+  const delayArray = [];
+  let currentIndex = 0;
   const exampleRenderFunction = (MGRef) => {
     const { totalMS } = MGRef;
-    plant_boy.x = app.renderer.plugins.interaction.mouse.global.x;
-    plant_boy.y = app.renderer.plugins.interaction.mouse.global.y;
+    delayArray.push({ ...app.renderer.plugins.interaction.mouse.global });
+
+    if ( totalMS > 500 ) {
+      let pos = delayArray[currentIndex];
+      if (pos.hasOwnProperty('x') && pos.hasOwnProperty('y')) {
+        plant_boy.x = pos.x
+        plant_boy.y = pos.y
+      } else {
+        plant_boy.x = app.renderer.plugins.interaction.mouse.global.x;
+        plant_boy.y = app.renderer.plugins.interaction.mouse.global.y
+      }
+      currentIndex += 1;
+    }
+    console.log( MGRef.width )
+    if (plant_boy.x >= 600 ) {
+      MGRef.winMG()
+    }
 
     // console.log(totalMS)
     if ((totalMS % 1000) < 501) {
@@ -77,5 +94,19 @@ function init (loader, resources) {
     update: exampleRenderFunction, 
     maxMS: 5000,
   });
+  newMG.didWin
+    .then( won => {
+      console.log('Won?', won)
+      if (won === true) {
+        alert('Won!');
+      } else {
+        alert('Lost :(')
+      }
+    })
+    .catch( err => {
+      console.log(err)
+    });
+  console.log(newMG.didWin)
+
   app.stage.addChild(newMG);
 };

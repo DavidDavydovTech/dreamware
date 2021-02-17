@@ -5,12 +5,17 @@ import { Container } from 'pixi.js';
 
 class MiniGame extends Container {
   constructor({ 
-    app, 
+    // A refrence to the main app, required.
+    app,
+    // How much faster/slower the minigame should play (twice as fast = a timeMod of 2)
     timeMod = 1, 
-    update, 
+    // The function to use when updating the minigame every frame.
+    update,
+    // The function to run when initalizing the game
     init = () => { 
       console.warn('No init provided to MiniGame') 
     },
+    // The maximum amount of time allowed to finish the minigame
     maxMS = 5000,
   },) {
     super();
@@ -27,7 +32,11 @@ class MiniGame extends Container {
       }
     }
 
+    this._appRefrence = app;
     this._tickerReference = app.ticker;
+    // This is just our update/render function, HOWEVER render is 
+    // already taken by the Container class, so we're using the name
+    // "renderMG" instead!
     this.renderMG = update;
     this.init = init;
 
@@ -37,6 +46,7 @@ class MiniGame extends Container {
     this.totalMS = 0;
 
     this.didWin = new Promise( (resolve, reject) => {
+      // These are the actual declarations of winMG and failMG
       this.failMG = () => { resolve(false); this.dispose(); };
       this.winMG = () => { resolve(true); this.dispose(); };
     });
@@ -53,12 +63,13 @@ class MiniGame extends Container {
     this.tickMG(this);
   }
 
+  // Do not touch these. These are placeholders for Intelisense
   failMG = () => { console.error('The failMG method WAS NOT UPDATED; MINIGAME CAN NOT BE FAILED!'); }
   winMG = () => { console.error('The winMG method WAS NOT UPDATED; MINIGAME CAN NOT BE WON!'); }
 
   tickMG = () => {
     if ( this.maxMS < this.totalMS && this.maxMS !== 0 ) {
-      this.dispose();
+      this.failMG();
       return;
     }
     this.deltaMS = this._tickerReference.elapsedMS * this.timeMod;
