@@ -2,6 +2,7 @@ import { Application, Sprite, InteractionData, Text, TextStyle, Ticker, Loader, 
 import * as PixiSound from 'pixi-sound';
 import Keyboard from './keyboard';
 import MiniGame from './lib/minigame';
+import DoodleSprite from './lib/DoodleSprite';
 const sound = PixiSound.default.sound;
 
 const SCREEN_WIDTH = 800;
@@ -25,13 +26,15 @@ loader
   .add('plant_body', 'img/test_game/plant_body.png')
   .add('plant_maw_1', 'img/test_game/plant_maw_1.png')
   .add('plant_maw_2', 'img/test_game/plant_maw_2.png')
+  .add('zero_a', 'img/hud/HUDPLN_0000.png')
+  .add('zero_b', 'img/hud/HUDPLN_0001.png')
 
 loader.load((loader, resources) => {
   init(loader, resources);
 });
 
 function init (loader, resources) {
-  const { plant_body, plant_maw_1, plant_maw_2 } = resources;
+  const { plant_body, plant_maw_1, plant_maw_2, zero_a, zero_b } = resources;
 
   const plant_boy = new Container();
   plant_boy.x = SCREEN_WIDTH / 2;
@@ -52,6 +55,15 @@ function init (loader, resources) {
   plant_boy.addChild(plant_maw_2_sprite);
 
   app.stage.addChild(plant_boy);
+
+  const zero = new DoodleSprite({
+    app,
+    texture: [zero_a.texture, zero_b.texture],
+    timeMod: 1,
+    swapMS: 500,
+  });
+
+  app.stage.addChild(zero);
   
 
   // IF YOU DELETE THIS COMMENT I WILL FUCKING END YOU BORA >:C

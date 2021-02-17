@@ -88,4 +88,4 @@ class DoodleSprite extends Sprite {
   }
 }
 
-export default MiniGame;
+export default DoodleSprite;
