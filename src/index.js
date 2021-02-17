@@ -1,7 +1,7 @@
 import { Application, Sprite, InteractionData, Text, TextStyle, Ticker, Loader, Graphics, Container } from 'pixi.js';
 import * as PixiSound from 'pixi-sound';
 import Keyboard from './keyboard';
-import MiniGame from './lib/minigame';
+import MiniGame from './lib/MiniGame';
 import DoodleSprite from './lib/DoodleSprite';
 const sound = PixiSound.default.sound;
 
@@ -49,7 +49,6 @@ function init (loader, resources) {
   plant_maw_1_sprite.alpha = 0;
   plant_boy.addChild(plant_maw_1_sprite);
   const plant_maw_2_sprite = new Sprite(plant_maw_2.texture);
-  // plant_maw_2_sprite.anchor.set(0.5,1)
   plant_maw_2_sprite.x = 60;
   plant_maw_2_sprite.y -= plant_maw_2_sprite.height - 10;
   plant_boy.addChild(plant_maw_2_sprite);
