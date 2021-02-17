@@ -55,7 +55,7 @@ class MiniGame extends Container {
   }
 
   _init = () => {
-    this.init(this);
+    this.init.call(this);
     this._tickerReference.add(this._ticker);
   }
 
@@ -74,7 +74,7 @@ class MiniGame extends Container {
     }
     this.deltaMS = this._tickerReference.elapsedMS * this.timeMod;
     this.totalMS += this.deltaMS;
-    this.renderMG(this);
+    this.renderMG.call(this);
   }
 
   renderMG = () => {

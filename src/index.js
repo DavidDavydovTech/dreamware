@@ -58,8 +58,8 @@ function init (loader, resources) {
   // NOTE: Sytax is [ song.sound.play(); ]
   const delayArray = [];
   let currentIndex = 0;
-  const exampleRenderFunction = (MGRef) => {
-    const { totalMS } = MGRef;
+  const exampleRenderFunction = function () {
+    const { totalMS } = this;
     delayArray.push({ ...app.renderer.plugins.interaction.mouse.global });
 
     if ( totalMS > 500 ) {
@@ -73,9 +73,8 @@ function init (loader, resources) {
       }
       currentIndex += 1;
     }
-    console.log( MGRef.width )
     if (plant_boy.x >= 600 ) {
-      MGRef.winMG()
+      this.winMG()
     }
 
     // console.log(totalMS)
