@@ -49,14 +49,39 @@ class GameHUDNumbers extends Container {
   }
 
   _init = () => {
-    const { 
-      _appRefrence: app, 
-      timeMod,
-      swapMS,
+    this._initPrepNumber();
+    this.number.forEach( number => this._addNumber(number) );
+  }
 
+  _initPrepNumber = () => {
+    if ( typeof this.number === 'number' || typeof this.number === 'string') {
+      this.number = parseInt(this.number).toString();
+    }
+    if (isNaN(this.number)) {
+      throw new Error('Got NaN for "number" in GameHUDNumbersNumbers. Aborting.')
+    }
+    this.number = this.number.split('');
+  }
+
+  _addNumber = (number) => {
+    const { _appRefrence: app, timeMod, swapMS, children } = this;
+    const texture = this._convertNumberToTextureArray(number);
+    const newNumber = new DoodleSprite({ texture, app, timeMod, swapMS });
+    if ( children.length > 0) {
+      const lastNumber = children[ children.length - 1 ];
+      newNumber.x = lastNumber.x + lastNumber.width + 10;
+    }
+    this.addChild( newNumber );
+  }
+
+  _convertNumberToTextureArray = (number) => {
+    const { 
+      _appRefrence: {
+        loader: {
+          resources
+        }
+      }
     } = this;
-    const { loader: { resources } } = app;
-    console.log(resources)
     const {
       zeroA, zeroB,
       oneA, oneB,
@@ -69,47 +94,23 @@ class GameHUDNumbers extends Container {
       eightA, eightB,
       nineA, nineB,
     } = resources;
-    if ( typeof this.number === 'number' || typeof this.number === 'string') {
-      this.number = parseInt(this.number).toString();
-    }
-    if (isNaN(this.number)) {
-      throw new Error('Got NaN for "number" in GameHUDNumbersNumbers. Aborting.')
-    }
-    this.number = this.number.split('');
-    this.number.forEach( (e) => {
-      let texture = [];
-      switch(e) {
-        case '0': { texture = [zeroA.texture, zeroB.texture]; break; }
-        case '1': { texture = [oneA.texture, oneB.texture]; break; }
-        case '2': { texture = [twoA.texture, twoB.texture]; break; }
-        case '3': { texture = [threeA.texture, threeB.texture]; break; }
-        case '4': { texture = [fourA.texture, fourB.texture]; break; }
-        case '5': { texture = [fiveA.texture, fiveB.texture]; break; }
-        case '6': { texture = [sixA.texture, sixB.texture]; break; }
-        case '7': { texture = [sevenA.texture, sevenB.texture]; break; }
-        case '8': { texture = [eightA.texture, eightB.texture]; break; }
-        case '9': { texture = [nineA.texture, nineB.texture]; break; }
-        default: { throw new Error(`Expected a number 0 - 9 but got ${e}.`)}
-      }
-      const newNumber = new DoodleSprite({ texture, app, timeMod, swapMS });
-      const { children } = this;
-      if ( children.length > 0) {
-        const lastNumber = children[ children.length - 1 ];
-        newNumber.x = lastNumber.x + lastNumber.width + 10;
-      }
-      this.addChild( newNumber );
-    })
-    this.children.forEach( e => console.log(e.x))
-    console.log(this.width, this.x, this.y)
-    // this._tickerReference.add(this._ticker);
-  }
+    let textureArray = [];
 
-  // We actually could do something more effecient than a reducer but... no time.
-  _xPositionReducer = ( last = 0, current, index) => {
-    last += current.x + index > 0 ? 10 : 0;
-  }
-  _addNumber = () => {
+    switch(number) {
+      case '0': { textureArray = [zeroA.texture, zeroB.texture]; break; }
+      case '1': { textureArray = [oneA.texture, oneB.texture]; break; }
+      case '2': { textureArray = [twoA.texture, twoB.texture]; break; }
+      case '3': { textureArray = [threeA.texture, threeB.texture]; break; }
+      case '4': { textureArray = [fourA.texture, fourB.texture]; break; }
+      case '5': { textureArray = [fiveA.texture, fiveB.texture]; break; }
+      case '6': { textureArray = [sixA.texture, sixB.texture]; break; }
+      case '7': { textureArray = [sevenA.texture, sevenB.texture]; break; }
+      case '8': { textureArray = [eightA.texture, eightB.texture]; break; }
+      case '9': { textureArray = [nineA.texture, nineB.texture]; break; }
+      default: { throw new Error(`Expected a number 0 - 9 but got ${e}.`)}
+    }
 
+    return textureArray;
   }
 }
 
