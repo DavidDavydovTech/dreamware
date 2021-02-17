@@ -1,4 +1,4 @@
-import { Application, Sprite, Text, TextStyle, Ticker, Loader, Graphics, Container } from 'pixi.js';
+import { Application, Sprite, InteractionData, Text, TextStyle, Ticker, Loader, Graphics, Container } from 'pixi.js';
 import * as PixiSound from 'pixi-sound';
 import Keyboard from './keyboard';
 import MiniGame from './lib/minigame';
@@ -58,6 +58,9 @@ function init (loader, resources) {
   // NOTE: Sytax is [ song.sound.play(); ]
   const exampleRenderFunction = (MGRef) => {
     const { totalMS } = MGRef;
+    plant_boy.x = app.renderer.plugins.interaction.mouse.global.x;
+    plant_boy.y = app.renderer.plugins.interaction.mouse.global.y;
+
     // console.log(totalMS)
     if ((totalMS % 1000) < 501) {
       plant_maw_1_sprite.alpha = 0;
@@ -75,5 +78,4 @@ function init (loader, resources) {
     maxMS: 5000,
   });
   app.stage.addChild(newMG);
-
 };
