@@ -4,7 +4,15 @@ import { Container } from 'pixi.js';
 // const sound = PixiSound.default.sound;
 
 class MiniGame extends Container {
-  constructor({ app, timeMod = 1, update, init = () => { console.warn('No init provided to MiniGame') }}) {
+  constructor({ 
+    app, 
+    timeMod = 1, 
+    update, 
+    init = () => { 
+      console.warn('No init provided to MiniGame') 
+    },
+    maxMS = 5000,
+  },) {
     super();
 
     switch(true) {
@@ -24,6 +32,7 @@ class MiniGame extends Container {
     this.init = init;
 
     this.timeMod = timeMod;
+    this.maxMS = maxMS;
     this.deltaMS = 0;
     this.totalMS = 0;
 
@@ -41,13 +50,17 @@ class MiniGame extends Container {
   }
 
   _ticker = () => {
-    this.tickMG();
+    this.tickMG(this);
   }
 
   failMG = () => { console.error('The failMG method WAS NOT UPDATED; MINIGAME CAN NOT BE FAILED!'); }
   winMG = () => { console.error('The winMG method WAS NOT UPDATED; MINIGAME CAN NOT BE WON!'); }
 
   tickMG = () => {
+    if ( this.maxMS < this.totalMS && this.maxMS !== 0 ) {
+      this.dispose();
+      return;
+    }
     this.deltaMS = this._tickerReference.elapsedMS * this.timeMod;
     this.totalMS += this.deltaMS;
     this.renderMG(this);
@@ -60,11 +73,11 @@ class MiniGame extends Container {
 
   dispose = () => {
     let timeSinceDispose = 0;
-    console.log('Disposing minigame... MS since dispose:')
-    this.renderMG = () => {
-      console.log( timeSinceDispose / ( 1 * this.timeMod) );
-      timeSinceDispose += this._tickerReference.elapsedMS;
-    };
+    // console.log('Disposing minigame... MS since dispose:')
+    // this.renderMG = () => {
+    //   console.log( timeSinceDispose / ( 1 * this.timeMod) );
+    //   timeSinceDispose += this._tickerReference.elapsedMS;
+    // };
     this._tickerReference.remove(this._ticker);
   }
 }

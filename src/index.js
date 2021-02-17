@@ -68,7 +68,12 @@ function init (loader, resources) {
     }
   }
 
-  const newMG = new MiniGame({ app: app, timeMod: 1., update: exampleRenderFunction });
+  const newMG = new MiniGame({ 
+    app: app, 
+    timeMod: 1, 
+    update: exampleRenderFunction, 
+    maxMS: 5000,
+  });
   app.stage.addChild(newMG);
 
 };
