@@ -1,6 +1,7 @@
 import { Application, Sprite, Text, TextStyle, Ticker, Loader, Graphics, Container } from 'pixi.js';
 import * as PixiSound from 'pixi-sound';
 import Keyboard from './keyboard';
+import MiniGame from './lib/minigame';
 const sound = PixiSound.default.sound;
 
 const SCREEN_WIDTH = 800;
@@ -55,20 +56,19 @@ function init (loader, resources) {
 
   // IF YOU DELETE THIS COMMENT I WILL FUCKING END YOU BORA >:C
   // NOTE: Sytax is [ song.sound.play(); ]
-  let open = true;
-  let time = 0;
-  app.ticker.add(() => {
-    time += app.ticker.elapsedMS;
-    if ((time % 1000) < 501) {
+  const exampleRenderFunction = (MGRef) => {
+    const { totalMS } = MGRef;
+    // console.log(totalMS)
+    if ((totalMS % 1000) < 501) {
       plant_maw_1_sprite.alpha = 0;
       plant_maw_2_sprite.alpha = 1;
     } else {
       plant_maw_1_sprite.alpha = 1;
       plant_maw_2_sprite.alpha = 0;
-
     }
-    // open = !open;
-  })
+  }
+
+  const newMG = new MiniGame({ app: app, timeMod: 1., update: exampleRenderFunction });
+  app.stage.addChild(newMG);
+
 };
-
-
