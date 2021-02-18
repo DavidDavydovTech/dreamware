@@ -66,15 +66,62 @@ class GameHUD extends Container {
 
   _init = () => {
     const { _appRefrence: app, timeMod, } = this;
-    const test = new GameHUDNumbers({ app, timeMod, number: 42069});
-    this.addChild( test );
-    console.log(this.children[0])
-    const resources = this._appRefrence.loader.resources;
+    this._animateLevelNumberCycle({number: 10, x: 100, y: 200});
     this._tickerReference.add(this._ticker);
   }
 
   _ticker = () => {
     this.tickHUD(this);
+  }
+
+  _animateLevelNumberCycle = ({ 
+    resolve = () => { 
+      console.warn(new Error('Warning no resolve function given.'));
+    }, 
+    number, 
+    fadeInMS = 250, 
+    fadeOutMS = 250, 
+    displayMS = 1500, 
+    x, 
+    y 
+  }) => {
+    const { _appRefrence: app, timeMod } = this;
+    const levelNumber = new GameHUDNumbers({ app, timeMod, number});
+    levelNumber.alpha = 0;
+    levelNumber.pivot.x = levelNumber.width / 2;
+    levelNumber.pivot.y = levelNumber.height / 2;
+    levelNumber.x = x;
+    levelNumber.y = y;
+    this.addChild(levelNumber);
+
+    let animationMS = 0;
+    const animation = () => {
+      const { deltaMS } = this;
+      switch (true) {
+        case animationMS <= fadeInMS: {
+          const alpha = animationMS / fadeInMS;
+          levelNumber.alpha = alpha > 1 ? 1 : alpha;
+          break;
+        }
+        case animationMS <= fadeInMS + displayMS: {
+          levelNumber.alpha = 1;
+          break;
+        }
+        case animationMS <= fadeInMS + displayMS + fadeOutMS: {
+          const alpha = fadeOutMS / (animationMS - fadeInMS - displayMS + 0.01);
+          console.log(alpha)
+          levelNumber.alpha = alpha < 0 ? 0 : alpha;
+          break;
+        }
+        default: {
+          levelNumber.alpha = 0;
+          resolve( animationMS - fadeInMS - displayMS - fadeOutMS );
+          app.ticker.remove(animation);
+        }
+      }
+      animationMS += deltaMS;
+    }
+    app.ticker.add(animation);
   }
 
   animateAddLife = () => {
