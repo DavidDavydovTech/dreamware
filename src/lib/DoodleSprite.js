@@ -7,6 +7,7 @@ class DoodleSprite extends Sprite {
   constructor({ 
     // Either a array of textures or a single texture
     texture,
+    textureOffset,
     // A refrence to the main app, required.
     app,
     // How much faster/slower the minigame should play (twice as fast = a timeMod of 2)
@@ -44,6 +45,9 @@ class DoodleSprite extends Sprite {
         this._destroy(options);
       }
 
+      this.trueX = this.x;
+      this.trueY = this.y;
+
       this.timeMod = timeMod;
       this.maxMS = swapMS;
       this.swapMS = 0;
@@ -51,6 +55,11 @@ class DoodleSprite extends Sprite {
       this.totalMS = 0;
 
       this.textureArray = texture;
+      this.textureOffset = textureOffset;
+      this.textureOffsetActive = false;
+      if ( Array.isArray(textureOffset) ) {
+        this.textureOffsetActive = true;
+      }
       this.textureIndex = 0;
 
       this.swapQueued = false;
@@ -82,7 +91,18 @@ class DoodleSprite extends Sprite {
     }
 
     if (this.swapQueued === true) {
-      this.texture = this.textureArray[this.textureIndex % this.textureArray.length];
+      const currentIndex = this.textureIndex % this.textureArray.length;
+      this.texture = this.textureArray[currentIndex];
+      if (this.textureOffsetActive) { currentIndex
+        const offset = this.textureOffsetActive[currentIndex];
+        if (Object.isObject(offset) && offset.hasOwnProperty('x') &&  offset.hasOwnProperty('y')) {
+          this.x = this.trueX + offset.x;
+          this.y = this.trueY + offset.y;
+        } else {
+          this.x = this.trueX;
+          this.y = this.trueY;
+        }
+      }
       this.swapQueued = false;
     }
   }
