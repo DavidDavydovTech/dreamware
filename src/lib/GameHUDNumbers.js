@@ -37,7 +37,7 @@ class GameHUDNumbers extends Container {
       }
     }
 
-    this._appRefrence = app;
+    this._appReference = app;
     this._tickerReference = app.ticker;
 
     this.timeMod = timeMod;
@@ -64,7 +64,7 @@ class GameHUDNumbers extends Container {
   }
 
   _addNumber = (number) => {
-    const { _appRefrence: app, timeMod, swapMS, children } = this;
+    const { _appReference: app, timeMod, swapMS, children } = this;
     const texture = this._convertNumberToTextureArray(number);
     const newNumber = new DoodleSprite({ texture, app, timeMod, swapMS });
     if ( children.length > 0) {
@@ -76,7 +76,7 @@ class GameHUDNumbers extends Container {
 
   _convertNumberToTextureArray = (number) => {
     const { 
-      _appRefrence: {
+      _appReference: {
         loader: {
           resources
         }

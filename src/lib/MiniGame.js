@@ -36,7 +36,7 @@ class MiniGame extends Container {
       }
     }
 
-    this._appRefrence = app;
+    this._appReference = app;
     this._tickerReference = app.ticker;
     // This is just our update/render function, HOWEVER render is 
     // already taken by the Container class, so we're using the name

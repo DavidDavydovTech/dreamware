@@ -34,7 +34,7 @@ class DoodleSprite extends Sprite {
     } else {
       super(texture[0]);
 
-      this._appRefrence = app;
+      this._appReference = app;
       this._tickerReference = app.ticker;
       // We need to keep a refrence to the original destroy method.
       this._destroy = this.destroy;

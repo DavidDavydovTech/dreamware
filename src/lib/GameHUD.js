@@ -48,7 +48,7 @@ class GameHUD extends Container {
       }
     }
 
-    this._appRefrence = app;
+    this._appReference = app;
     this._tickerReference = app.ticker;
     this._dispose = this.dispose;
 
@@ -75,7 +75,7 @@ class GameHUD extends Container {
   }
 
   _init = () => {
-    const { _appRefrence: app, timeMod, } = this;
+    const { _appReference: app, timeMod, } = this;
     this.animateLevelNumberCycle({number: 10, x: 100, y: 200});
     this._tickerReference.add(this._ticker);
   }
@@ -95,7 +95,7 @@ class GameHUD extends Container {
     x, 
     y
   }) => {
-    const { _appRefrence: app, timeMod } = this;
+    const { _appReference: app, timeMod } = this;
     const levelNumber = new GameHUDNumbers({ app, timeMod, number});
     levelNumber.alpha = 0;
     levelNumber.pivot.x = levelNumber.width / 2;
