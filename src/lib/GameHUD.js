@@ -50,12 +50,12 @@ class GameHUD extends Container {
 
     this._appRefrence = app;
     this._tickerReference = app.ticker;
-
+    this._dispose = this.dispose;
+    
     this.timeMod = timeMod;
     this.timeModMeterMax = timeModMeterMax;
     this.deltaMS = 0;
     this.totalMS = 0;
-
     
     this.lives = lives;
     this.livesMax = livesMax;
@@ -66,7 +66,7 @@ class GameHUD extends Container {
 
   _init = () => {
     const { _appRefrence: app, timeMod, } = this;
-    this._animateLevelNumberCycle({number: 10, x: 100, y: 200});
+    this.animateLevelNumberCycle({number: 10, x: 100, y: 200});
     this._tickerReference.add(this._ticker);
   }
 
@@ -74,7 +74,7 @@ class GameHUD extends Container {
     this.tickHUD(this);
   }
 
-  _animateLevelNumberCycle = ({ 
+  animateLevelNumberCycle = ({ 
     resolve = () => { 
       console.warn(new Error('Warning no resolve function given.'));
     }, 
@@ -83,7 +83,7 @@ class GameHUD extends Container {
     fadeOutMS = 250, 
     displayMS = 1500, 
     x, 
-    y 
+    y
   }) => {
     const { _appRefrence: app, timeMod } = this;
     const levelNumber = new GameHUDNumbers({ app, timeMod, number});
@@ -153,6 +153,7 @@ class GameHUD extends Container {
   }
 
   dispose = () => {
+    this._dispose();
     this._tickerReference.remove(this._ticker);
   }
 }
