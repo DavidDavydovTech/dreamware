@@ -43,7 +43,6 @@ class MiniGame extends Container {
     // "renderMG" instead!
     this.renderMG = update;
     this.init = init;
-    this._dispose = this.dispose;
 
     this.timeMod = timeMod;
     this.maxMS = maxMS;
@@ -87,9 +86,8 @@ class MiniGame extends Container {
     this.failMG();
   }
 
-  dispose = (options) => {
+  dispose = () => {
     this._tickerReference.remove(this._ticker);
-    this._dispose(options);
   }
 }
 
