@@ -51,7 +51,7 @@ class GameHUD extends Container {
     this._appRefrence = app;
     this._tickerReference = app.ticker;
     this._dispose = this.dispose;
-    
+
     this.timeMod = timeMod;
     this.timeModMeterMax = timeModMeterMax;
     this.deltaMS = 0;
@@ -60,6 +60,16 @@ class GameHUD extends Container {
     this.lives = lives;
     this.livesMax = livesMax;
     this.character = character;
+
+    const { cloudA, cloudB } = app.loader.resources;
+    const bubble = new DoodleSprite({
+      texture: [cloudA.texture, cloudB.texture],
+      app,
+      timeMod
+    });
+    bubble.x = 300
+    bubble.y = 300
+    this.addChild(bubble);
 
     this._init();
   }
