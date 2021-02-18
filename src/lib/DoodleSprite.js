@@ -15,7 +15,7 @@ class DoodleSprite extends Sprite {
     swapMS = 500,
   }) {
     switch(true) {
-      case !texture || ( Array.isArray(texture) &&  MGArray.length < 1): {
+      case !texture || ( Array.isArray(texture) &&  texture.length < 1): {
         throw new Error('Warning texture not supplied or empty.');
       }
       case !app: {
