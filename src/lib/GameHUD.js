@@ -221,7 +221,6 @@ class GameHUD extends Container {
     //     this.animateZoomCycle({ zoomInMS: 1400, zoomInScale: 1, x: 0, y: 0})
     //   })
     this._tickerReference.add(this._ticker);
-    this.removeLife();
   }
 
   _ticker = () => {
@@ -229,15 +228,12 @@ class GameHUD extends Container {
   }
 
   animateLevelNumberCycle = ({ 
-    resolve = () => { 
-      console.warn(new Error('Warning no resolve function given.'));
-    }, 
     number, 
     fadeInMS = 500, 
     fadeOutMS = 500, 
     displayMS = 2000, 
-    x, 
-    y
+    x = 400, 
+    y = 170
   }) => {
     return new Promise( resolve => {
       const { _appReference: app, timeMod } = this;
@@ -334,7 +330,6 @@ class GameHUD extends Container {
         }
         if (animationMS > duration) {
           heart.alpha = 1;
-          console.log(this.lives)
           resolve( animationMS - duration );
           this._tickerReference.remove(animation);
         }
@@ -431,7 +426,7 @@ class GameHUD extends Container {
 
   removeLife = () => {
     this.lives += 1;
-    return this.animateAddLife();
+    return this.animateRemoveLife();
   }
 
   tickHUD = () => {
