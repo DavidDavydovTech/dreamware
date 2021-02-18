@@ -33,7 +33,8 @@ class DoodleSprite extends Sprite {
     if (Array.isArray(texture) === false) {
       super(texture);
     } else {
-      super(texture[0]);
+      const original = super(texture[0]);
+      console.log(original);
 
       this._appReference = app;
       this._tickerReference = app.ticker;
@@ -45,9 +46,10 @@ class DoodleSprite extends Sprite {
         this._destroy(options);
       }
 
+      
       this.trueX = 0;
       this.trueY = 0;
-
+      this.offset = textureOffset && textureOffset[0] ? textureOffset[0] : { x: 0, y: 0 };
       this.timeMod = timeMod;
       this.maxMS = swapMS;
       this.swapMS = 0;
@@ -66,6 +68,24 @@ class DoodleSprite extends Sprite {
 
       this._init();
     }
+  }
+
+  set y (val) {
+    this.trueY = val;
+    this.position.y = this.trueY + this.offset.y;
+  }
+
+  get y () {
+    return this.trueY;
+  }
+
+  set x (val) {
+    this.trueX = val;
+    this.position.x = this.trueX + this.offset.x;
+  }
+
+  get x () {
+    return this.trueX;
   }
 
   _init = () => {
@@ -95,10 +115,11 @@ class DoodleSprite extends Sprite {
       this.texture = this.textureArray[currentIndex];
       if (this.textureOffsetActive) {
         const offset = this.textureOffset[currentIndex];
-        console.log(this.y, this.trueY, this.trueY + offset.y ? offset.y : 0 )
+        // console.log(this.y, this.trueY, this.trueY + offset.y ? offset.y : 0 )
         // This is bad code but its 11:42 so im passing it through anyay.
-        this.x = this.trueX + offset.x;
-        this.y = this.trueY + offset.y;
+        this.offset = offset;
+        this.y = this.y;
+        this.x = this.x;
       }
       this.swapQueued = false;
     }
