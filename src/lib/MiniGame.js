@@ -11,7 +11,8 @@ class MiniGame extends Container {
    * @param {integer} props.timeMod - How much faster/slower the minigame should play (twice as fast = a timeMod of 2).
    * @param {function} props.update - The function to use when updating the minigame every frame.
    * @param {number} props.init - The function to run when initalizing the game.
-   * @param {number} props.maxMS - The maximum amount of time allowed to finish the minigame
+   * @param {number} props.maxMS - The maximum amount of time allowed to finish the minigame.
+   * @param {number} props.difficuly - A arbitrary way of delegating the minigame's difficulty.
   */
   constructor({ 
     app,
@@ -21,6 +22,7 @@ class MiniGame extends Container {
       console.warn('No init provided to MiniGame') 
     },
     maxMS = 5000,
+    difficuly = 1,
   },) {
     super();
 
@@ -42,7 +44,14 @@ class MiniGame extends Container {
     // already taken by the Container class, so we're using the name
     // "renderMG" instead!
     this.renderMG = update;
+    this._destroy = this.destroy;
+    this.destroy = (options) => {
+      this._tickerReference.remove(this._ticker);
+      this._destroy(options);
+    };
     this.init = init;
+
+    this.difficuly = difficuly;
 
     this.timeMod = timeMod;
     this.maxMS = maxMS;
@@ -51,8 +60,8 @@ class MiniGame extends Container {
 
     this.didWin = new Promise( (resolve, reject) => {
       // These are the actual declarations of winMG and failMG
-      this.failMG = () => { resolve(false); this.dispose(); };
-      this.winMG = () => { resolve(true); this.dispose(); };
+      this.failMG = () => { resolve(false); this.destroy(); };
+      this.winMG = () => { resolve(true); this.destroy(); };
     });
 
     this._init();
@@ -84,10 +93,6 @@ class MiniGame extends Container {
   renderMG = () => {
     console.error(`WARNING renderMG DIDN'T RENDER. KILLING GAME EARLY.`)
     this.failMG();
-  }
-
-  dispose = () => {
-    this._tickerReference.remove(this._ticker);
   }
 }
 
