@@ -4,18 +4,22 @@ import { Container } from 'pixi.js';
 // const sound = PixiSound.default.sound;
 
 class MiniGame extends Container {
+    /**
+   * Constructor for GameHUDNumbers
+   * @param {object} props - The main props for the HUD
+   * @param {import('pixi.js').Application} props.app - A refrence to the main app, required.
+   * @param {integer} props.timeMod - How much faster/slower the minigame should play (twice as fast = a timeMod of 2).
+   * @param {function} props.update - The function to use when updating the minigame every frame.
+   * @param {number} props.init - The function to run when initalizing the game.
+   * @param {number} props.maxMS - The maximum amount of time allowed to finish the minigame
+  */
   constructor({ 
-    // A refrence to the main app, required.
     app,
-    // How much faster/slower the minigame should play (twice as fast = a timeMod of 2)
     timeMod = 1, 
-    // The function to use when updating the minigame every frame.
     update,
-    // The function to run when initalizing the game
     init = () => { 
       console.warn('No init provided to MiniGame') 
     },
-    // The maximum amount of time allowed to finish the minigame
     maxMS = 5000,
   },) {
     super();
