@@ -1,4 +1,5 @@
 import { Container } from 'pixi.js';
+import GameHUD from './GameHUD';
 // import * as PixiSound from 'pixi-sound';
 // import Keyboard from './keyboard';
 // const sound = PixiSound.default.sound;
@@ -9,18 +10,10 @@ class GameController extends Container {
     app,
     // How much faster/slower the minigame should play (twice as fast = a timeMod of 2)
     timeMod = 1, 
-    // The function to use when updating the minigame every frame.
-    update,
     // Array of minigames 
     MGArray,
     // Boss Minigame
     MGBoss,
-    // The function to run when initalizing the game
-    init = () => { 
-      console.warn('No init provided to MiniGame') 
-    },
-    // The maximum amount of time allowed to finish the minigame
-    maxMS = 5000,
   },) {
     super();
 
@@ -31,7 +24,10 @@ class GameController extends Container {
       case !timeMod: {
         throw new Error('Warning timeMod not supplied.');
       }
-      case !update: {
+      case !MGArray: {
+        throw new Error('Warning update not supplied.');
+      }
+      case !MGBoss: {
         throw new Error('Warning update not supplied.');
       }
     }
@@ -41,21 +37,16 @@ class GameController extends Container {
     // This is just our update/render function, HOWEVER render is 
     // already taken by the Container class, so we're using the name
     // "renderMG" instead!
-    this.renderMG = update;
-    this.init = init;
+    this._destroy = this.destroy;
+    this.destroy = (options) => {
+      this._tickerReference.remove(this._ticker);
+      this._destroy(options);
+    };
 
     this.timeMod = timeMod;
-    this.maxMS = maxMS;
-    this.deltaMS = 0;
-    this.totalMS = 0;
 
-    this.didWin = new Promise( (resolve, reject) => {
-      // These are the actual declarations of winMG and failMG
-      this.failMG = () => { resolve(false); this.dispose(); };
-      this.winMG = () => { resolve(true); this.dispose(); };
-    });
-
-    this._init();
+    this.HUDContainer = new GameHUD({ app: this._appReference, timeMod });
+    this.addChild(this.HUDContainer);
   }
 
   _init = () => {
