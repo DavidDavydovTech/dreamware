@@ -108,8 +108,8 @@ class GameHUD extends Container {
           break;
         }
         case animationMS <= fadeInMS + displayMS + fadeOutMS: {
-          const alpha = fadeOutMS / (animationMS - fadeInMS - displayMS + 0.01);
-          console.log(alpha)
+          const alpha = 1 - ( animationMS - fadeInMS - displayMS ) / fadeOutMS;
+          console.log(alpha) 
           levelNumber.alpha = alpha < 0 ? 0 : alpha;
           break;
         }
