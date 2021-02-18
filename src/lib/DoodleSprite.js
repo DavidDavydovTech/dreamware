@@ -8,6 +8,7 @@ class DoodleSprite extends Sprite {
     // Either a array of textures or a single texture
     texture,
     textureOffset,
+    destroyOnLoop = false,
     // A refrence to the main app, required.
     app,
     // How much faster/slower the minigame should play (twice as fast = a timeMod of 2)
@@ -34,27 +35,28 @@ class DoodleSprite extends Sprite {
       super(texture);
     } else {
       const original = super(texture[0]);
-      console.log(original);
 
       this._appReference = app;
       this._tickerReference = app.ticker;
       // We need to keep a refrence to the original destroy method.
       this._destroy = this.destroy;
       // ...and replace it with a wrapper/thunk
-      this.destroy = (options = {}) => {
+      this.destroy = (options) => {
         this._tickerReference.remove(this._ticker);
         this._destroy(options);
-      }
+      };
 
       
       this.trueX = 0;
       this.trueY = 0;
       this.offset = textureOffset && textureOffset[0] ? textureOffset[0] : { x: 0, y: 0 };
+      
       this.timeMod = timeMod;
       this.maxMS = swapMS;
       this.swapMS = 0;
       this.deltaMS = 0;
       this.totalMS = 0;
+      this.destroyOnLoop = destroyOnLoop;
 
       this.textureArray = texture;
       this.textureOffset = textureOffset;
@@ -110,6 +112,12 @@ class DoodleSprite extends Sprite {
       this.swapQueued = true;
     }
 
+    if ( this.destroyOnLoop && this.textureIndex > this.textureArray.length) {
+      this.alpha = 0;
+      this.destroy();
+      return;
+    }
+    
     if (this.swapQueued === true) {
       const currentIndex = this.textureIndex % this.textureArray.length;
       this.texture = this.textureArray[currentIndex];
