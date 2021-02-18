@@ -61,22 +61,48 @@ class GameHUD extends Container {
     this.livesMax = livesMax;
     this.character = character;
 
-    const { cloudA, cloudB } = app.loader.resources;
-    const bubble = new DoodleSprite({
-      texture: [cloudA.texture, cloudB.texture],
-      app,
-      timeMod
-    });
-    bubble.x = 300
-    bubble.y = 300
-    this.addChild(bubble);
-
     this._init();
   }
 
+  _initGraphics = () => {
+    const { _appReference: app } = this;
+    const { cloudA, cloudB } = app.loader.resources;
+    const cloud = new DoodleSprite({
+      texture: [cloudA.texture, cloudB.texture],
+      app,
+      timeMod: this.timeMod
+    });
+    cloud.pivot.set( cloud.width/2, cloud.height/2 );
+    cloud.x = 400;
+    cloud.y = 200;
+    cloud.scale.set(0.5, 0.5)
+    this.addChild(cloud);
+
+    const { boxA, boxB } = app.loader.resources;
+    const box = new DoodleSprite({
+      texture: [boxA.texture, boxB.texture],
+      app,
+      timeMod: this.timeMod
+    });
+    box.x = 400
+    box.y = 775
+    box.pivot.set( box.width / 2 , box.height )
+    this.addChild(box);
+  }
   _init = () => {
+    this._initGraphics();
     const { _appReference: app, timeMod, } = this;
-    this.animateLevelNumberCycle({number: 10, x: 100, y: 200});
+    new Promise( (resolve, reject) => {
+      this.animateLevelNumberCycle({ resolve, number: 10, x: 400, y: 170});
+    })
+      .then( () => {
+        return new Promise ( ( resolve, reject ) => {
+          this.animateZoomCycle({ resolve, zoomInMS: 1400, zoomInScale: 5, x: -1600, y: -450})
+        })
+      })
+      .then( () => {
+        this.animateZoomCycle({ zoomInMS: 1400, zoomInScale: 1, x: 0, y: 0})
+      })
     this._tickerReference.add(this._ticker);
   }
 
@@ -89,9 +115,9 @@ class GameHUD extends Container {
       console.warn(new Error('Warning no resolve function given.'));
     }, 
     number, 
-    fadeInMS = 250, 
-    fadeOutMS = 250, 
-    displayMS = 1500, 
+    fadeInMS = 500, 
+    fadeOutMS = 500, 
+    displayMS = 2000, 
     x, 
     y
   }) => {
@@ -125,6 +151,50 @@ class GameHUD extends Container {
         default: {
           levelNumber.alpha = 0;
           resolve( animationMS - fadeInMS - displayMS - fadeOutMS );
+          app.ticker.remove(animation);
+        }
+      }
+      animationMS += deltaMS;
+    }
+    app.ticker.add(animation);
+  }
+
+  animateZoomCycle = ({ 
+    resolve = () => { 
+      console.warn(new Error('Warning no resolve function given.'));
+    },
+    zoomInMS = 1000,
+    zoomInScale = 2,
+    x, 
+    y
+  }) => {
+    const { _appReference: app, timeMod } = this;
+
+    let animationMS = 0;
+    const startX = this.x;
+    const startY = this.y;
+    const startScale = { ...this.scale };
+    console.log(startScale);
+    const animation = () => {
+      const { deltaMS } = this;
+      switch (true) {
+        case animationMS <= zoomInMS: {
+          let animationProgress = ( animationMS / zoomInMS );
+          if (animationProgress > 1) animationProgress = 1;
+          let zoomAmount = startScale._x + animationProgress * ( zoomInScale - startScale._x);
+          this.scale.set( zoomAmount, zoomAmount );
+          let currentX = startX + animationProgress * ( x - startX );
+          let currentY = startY + animationProgress * ( y - startY );
+          console.log('animationProgress', animationProgress, 'zoomAmount', zoomAmount, 'currentX', currentX)
+          this.x = currentX;
+          this.y = currentY;
+          break;
+        }
+        default: {
+          this.scale.set( zoomInScale, zoomInScale );;
+          this.x = x;
+          this.y = y;
+          resolve( animationMS - zoomInMS );
           app.ticker.remove(animation);
         }
       }
