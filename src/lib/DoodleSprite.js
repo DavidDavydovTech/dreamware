@@ -45,8 +45,8 @@ class DoodleSprite extends Sprite {
         this._destroy(options);
       }
 
-      this.trueX = this.x;
-      this.trueY = this.y;
+      this.trueX = 0;
+      this.trueY = 0;
 
       this.timeMod = timeMod;
       this.maxMS = swapMS;
@@ -93,15 +93,12 @@ class DoodleSprite extends Sprite {
     if (this.swapQueued === true) {
       const currentIndex = this.textureIndex % this.textureArray.length;
       this.texture = this.textureArray[currentIndex];
-      if (this.textureOffsetActive) { currentIndex
-        const offset = this.textureOffsetActive[currentIndex];
-        if (Object.isObject(offset) && offset.hasOwnProperty('x') &&  offset.hasOwnProperty('y')) {
-          this.x = this.trueX + offset.x;
-          this.y = this.trueY + offset.y;
-        } else {
-          this.x = this.trueX;
-          this.y = this.trueY;
-        }
+      if (this.textureOffsetActive) {
+        const offset = this.textureOffset[currentIndex];
+        console.log(this.y, this.trueY, this.trueY + offset.y ? offset.y : 0 )
+        // This is bad code but its 11:42 so im passing it through anyay.
+        this.x = this.trueX + offset.x;
+        this.y = this.trueY + offset.y;
       }
       this.swapQueued = false;
     }
