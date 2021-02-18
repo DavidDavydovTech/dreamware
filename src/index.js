@@ -4,6 +4,10 @@ import Keyboard from './keyboard';
 import MiniGame from './lib/MiniGame';
 import DoodleSprite from './lib/DoodleSprite';
 import GameHUD from './lib/GameHUD';
+// Temp Import 
+import { updateGoatScare, initGoatScare } from './minigames/GoatScare';
+
+
 const sound = PixiSound.default.sound;
 
 const SCREEN_WIDTH = 800;
@@ -75,20 +79,20 @@ app.loader
     .add('miroB', 'img/hud/HUDPLPP_0005.png')
     // HUD Sleeping Faces
       // Calm sleep
-      .add('impyFaceA', 'HUDPLN_0000.png')
-      .add('impyFaceB', 'HUDPLN_0001.png')
-      .add('clingyFaceA', 'HUDPLN_0002.png')
-      .add('clingyFaceB', 'HUDPLN_0003.png')
-      .add('miroFaceA', 'HUDPLN_0004.png')
-      .add('miroFaceB', 'HUDPLN_0005,png')
+      .add('impyFaceA', 'img/hud/HUDPLN_0000.png')
+      .add('impyFaceB', 'img/hud/HUDPLN_0001.png')
+      .add('clingyFaceA', 'img/hud/HUDPLN_0002.png')
+      .add('clingyFaceB', 'img/hud/HUDPLN_0003.png')
+      .add('miroFaceA', 'img/hud/HUDPLN_0004.png')
+      .add('miroFaceB', 'img/hud/HUDPLN_0005,png')
       // Anger sleep
-      .add('impyFaceAngA', 'HUDA_0000.png')
-      .add('impyFaceAngB', 'HUDA_0001.png')
-      .add('impyFaceAngC', 'HUDA_0002.png')
-      .add('clingyFaceAngA', 'HUDA2_0000.png')
-      .add('clingyFaceAngB', 'HUDA2_0001.png')
-      .add('clingyFaceAngC', 'HUDA2_0002.png')
-      .add('clingyFaceAngD', 'HUDA2_0003.png')
+      .add('impyFaceAngA', 'img/hud/HUDA_0000.png')
+      .add('impyFaceAngB', 'img/hud/HUDA_0001.png')
+      .add('impyFaceAngC', 'img/hud/HUDA_0002.png')
+      .add('clingyFaceAngA', 'img/hud/HUDA2_0000.png')
+      .add('clingyFaceAngB', 'img/hud/HUDA2_0001.png')
+      .add('clingyFaceAngC', 'img/hud/HUDA2_0002.png')
+      .add('clingyFaceAngD', 'img/hud/HUDA2_0003.png')
       .add('miroFaceAngA', 'img/hud/HUDA3_0000.png')
       .add('miroFaceAngB', 'img/hud/HUDA3_0001.png')
       .add('miroFaceAngC', 'img/hud/HUDA3_0002.png')
@@ -170,6 +174,13 @@ function init (loader, resources) {
   //   });
 
   // console.log(newMG.didWin)
+
+  const GoatScare = new MiniGame({
+    app,
+    init: initGoatScare,
+    update: updateGoatScare,
+  });
+  app.stage.addChild(GoatScare);
 
   const HUD = new GameHUD({ app });
   app.stage.addChild(HUD);
