@@ -52,6 +52,47 @@ app.loader
   // HUD Cloud
   .add('cloudA', 'img/hud/HUDC_0000.png')
   .add('cloudB', 'img/hud/HUDC_0001.png')
+  // HUD Box
+  .add('boxA', 'img/hud/HUDPLP_0000.png')
+  .add('boxB', 'img/hud/HUDPLP_0001.png')
+  // HUD Hearts
+  .add('heartA', 'img/hud/HUDH_0000.png')
+  .add('heartB', 'img/hud/HUDH_0001.png')
+  .add('heartC', 'img/hud/HUDH_0002.png')
+  .add('heartD', 'img/hud/HUDH_0003.png')
+  .add('heartE', 'img/hud/HUDH_0004.png')
+  .add('heartF', 'img/hud/HUDH_0005.png')
+  .add('heartG', 'img/hud/HUDH_0006.png')
+  // HUD Meter
+  .add('meterA', 'img/hud/HUDM_0000.png')
+  .add('meterB', 'img/hud/HUDM_0001.png')
+  // HUD Sleeping Characters (Bodys)
+  .add('impyA', 'img/hud/HUDPLPP_0000.png')
+  .add('impyB', 'img/hud/HUDPLPP_0001.png')
+  .add('clingyA', 'img/hud/HUDPLPP_0002.png')
+  .add('clingyB', 'img/hud/HUDPLPP_0003.png')
+  .add('miroA', 'img/hud/HUDPLPP_0004.png')
+  .add('miroB', 'img/hud/HUDPLPP_0005.png')
+  // HUD Sleeping Faces
+    // Calm sleep
+    .add('impyFaceA', 'HUDPLN_0000.png')
+    .add('impyFaceB', 'HUDPLN_0001.png')
+    .add('clingyFaceA', 'HUDPLN_0002.png')
+    .add('clingyFaceB', 'HUDPLN_0003.png')
+    .add('miroFaceA', 'HUDPLN_0004.png')
+    .add('miroFaceB', 'HUDPLN_0005,png')
+    // Anger sleep
+    .add('impyFaceAngA', 'HUDA_0000.png')
+    .add('impyFaceAngB', 'HUDA_0001.png')
+    .add('impyFaceAngC', 'HUDA_0002.png')
+    .add('clingyFaceAngA', 'HUDA2_0000.png')
+    .add('clingyFaceAngB', 'HUDA2_0001.png')
+    .add('clingyFaceAngC', 'HUDA2_0002.png')
+    .add('clingyFaceAngD', 'HUDA2_0003.png')
+    .add('miroFaceAngA', 'img/hud/HUDA3_0000.png')
+    .add('miroFaceAngB', 'img/hud/HUDA3_0001.png')
+    .add('miroFaceAngC', 'img/hud/HUDA3_0002.png')
+    .add('miroFaceAngD', 'img/hud/HUDA4_0003.png')
 
 
 app.loader.load((loader, resources) => {
