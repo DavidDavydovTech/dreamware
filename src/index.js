@@ -5,7 +5,7 @@ import MiniGame from './lib/MiniGame';
 import DoodleSprite from './lib/DoodleSprite';
 import GameHUD from './lib/GameHUD';
 // Temp Import 
-import { updateGoatScare, initGoatScare } from './minigames/GoatScare';
+import GetGoatScareFuncs from './minigames/GoatScare';
 
 
 const sound = PixiSound.default.sound;
@@ -84,7 +84,7 @@ app.loader
       .add('clingyFaceA', 'img/hud/HUDPLN_0002.png')
       .add('clingyFaceB', 'img/hud/HUDPLN_0003.png')
       .add('miroFaceA', 'img/hud/HUDPLN_0004.png')
-      .add('miroFaceB', 'img/hud/HUDPLN_0005,png')
+      .add('miroFaceB', 'img/hud/HUDPLN_0005.png')
       // Anger sleep
       .add('impyFaceAngA', 'img/hud/HUDA_0000.png')
       .add('impyFaceAngB', 'img/hud/HUDA_0001.png')
@@ -96,7 +96,7 @@ app.loader
       .add('miroFaceAngA', 'img/hud/HUDA3_0000.png')
       .add('miroFaceAngB', 'img/hud/HUDA3_0001.png')
       .add('miroFaceAngC', 'img/hud/HUDA3_0002.png')
-      .add('miroFaceAngD', 'img/hud/HUDA4_0003.png')
+      .add('miroFaceAngD', 'img/hud/HUDA3_0003.png')
   // -- Goat Scare --
   .add('goatBgA', 'img/goat_scare/GOAT_BG_A.png')
   .add('goatBgB', 'img/goat_scare/GOAT_BG_B.png')
@@ -175,11 +175,14 @@ function init (loader, resources) {
 
   // console.log(newMG.didWin)
 
+  // Rename init and update once making a new instance of the minigame 
+  const { init, update } = GetGoatScareFuncs(); 
   const GoatScare = new MiniGame({
     app,
-    init: initGoatScare,
-    update: updateGoatScare,
+    init,
+    update,
   });
+
   app.stage.addChild(GoatScare);
 
   const HUD = new GameHUD({ app });
