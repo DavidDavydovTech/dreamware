@@ -9,7 +9,7 @@ import GameController from './lib/GameController';
 import GetGoatScareFuncs from './minigames/GoatScare';
 import GetNightPlugFuncs from './minigames/NightPlug';
 import GetGhostShooterFuncs from './minigames/GhostShooter';
-import GetTypingTestFuncs from './minigames/TypingTest';
+// import GetTypingTestFuncs from './minigames/TypingTest';
 import GetPitJumperFuncs from './minigames/PitJumper';
 //import GetSketchManFuncs from './minigames/SketchMan';
 import GetFlashlightFuncs from './minigames/Flashlight';
@@ -490,17 +490,28 @@ function init (loader, resources) {
   // console.log(newMG.didWin)
 
   // Rename init and update once making a new instance of the minigame 
-  const { init, update } = GetTypingTestFuncs(); 
-  const Impasta = new MiniGame({
-    app,
-    init,
-    update,
-    difficulty: 1,
-    maxMS: 10000,
-  });
+  // const { init, update } = GetFlashlightFuncs(); 
+  // const Impasta = new MiniGame({
+  //   app,
+  //   init,
+  //   update,
+  //   difficulty: 1,
+  //   maxMS: 10000,
+  // });
 
-  app.stage.addChild(Impasta);
+  // app.stage.addChild(Impasta);
   // console.log(data)
-  // const HUD = new GameController({ app, MGArray: [], MGBoss: {} });
-  // app.stage.addChild(HUD);
+  const HUD = new GameController({ 
+    app, 
+    MGArray: [
+      GetGoatScareFuncs,
+      GetIceSkateFuncs,
+      GetGhostShooterFuncs,
+      GetNightPlugFuncs,
+      GetImpastaFuncs,
+      GetPingPongFuncs
+    ], 
+    MGBoss: {} 
+  });
+  app.stage.addChild(HUD);
 };

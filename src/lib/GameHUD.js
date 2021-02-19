@@ -73,6 +73,13 @@ class GameHUD extends Container {
       }
     };
 
+    this.minigames = [];
+    this.cleanUpMGs = () => {
+      this.minigames.forEach( e => {
+        this.removeChild(e);
+      })
+      this.minigames = [];
+    }
     this._init();
   }
 
@@ -395,9 +402,12 @@ class GameHUD extends Container {
     zoomMS = 1000,
     zoomInScale = 2,
     x = 400, 
-    y = 170
+    y = 170,
+    callback,
+    callbackEnd,
   }) => {
     return () => new Promise( ( resolve ) => {
+      if (callback) { callback(); }
       const { _appReference: app, timeMod } = this;
       // console.log(x);
       let animationMS = 0;
@@ -423,7 +433,8 @@ class GameHUD extends Container {
           default: {
             this.scale.set( zoomInScale, zoomInScale );
             this.x = x;
-
+            if (callbackEnd) { callbackEnd(); }
+      
             // console.log(this.x);
             this.y = y;
             resolve( animationMS - zoomMS );
@@ -525,17 +536,21 @@ class GameHUD extends Container {
     });
   }
 
-  animateDelay = ({ duration = 250 }) => {
+  animateDelay = ({ duration = 1000 }) => {
     let animationMS = 0;
-    return function (resolve) {
-        const { deltaMS } = this;
-        if (animationMS > duration) {
-          resolve( animationMS - duration );
-          this._tickerReference.remove(animation);
-          // console.log(`Finished in ${animationMS} milliseconds!`);
-        }
-        animationMS += deltaMS;
+    let resolveRefrence;
+    const animation = () => {
+      const { deltaMS } = this;
+      if (animationMS > duration) {
+        resolveRefrence( animationMS - duration );
+        this._tickerReference.remove(animation);
+      }
+      animationMS += deltaMS;
     }
+    return () => new Promise( resolve => {
+      resolveRefrence = resolve;
+      this._tickerReference.add(animation);
+    });
   }
 
   addLife = () => {
@@ -550,12 +565,12 @@ class GameHUD extends Container {
     return this.animateRemoveLife();
   }
 
-  zoomIn = ({ zoomInMS = 2500 } = {}) => {
-    return this.animateZoomCycle({ zoomMS: zoomInMS, zoomInScale: 5, x: -320 * 5, y: -80 * 5 })
+  zoomIn = ({ zoomInMS = 2500, callback, callbackEnd } = {}) => {
+    return this.animateZoomCycle({ zoomMS: zoomInMS, zoomInScale: 5, x: -320 * 5, y: -80 * 5, callback, callbackEnd })
   }
 
-  zoomOut = ({ zoomOutMS = 2500 } = {}) => {
-    return this.animateZoomCycle({ zoomMS: zoomOutMS, zoomInScale: 1, x: 0, y: 0 })
+  zoomOut = ({ zoomOutMS = 2500, callback, callbackEnd} = {}) => {
+    return this.animateZoomCycle({ zoomMS: zoomOutMS, zoomInScale: 1, x: 0, y: 0, callback, callbackEnd })
   }
 
   levelNumber = (number, options) => {

@@ -1,4 +1,4 @@
-import { Container } from 'pixi.js';
+import { Container, Graphics } from 'pixi.js';
 import * as PixiSound from 'pixi-sound';
 const sound = PixiSound.default.sound;
 // import * as PixiSound from 'pixi-sound';
@@ -15,6 +15,7 @@ class MiniGame extends Container {
    * @param {number} props.maxMS - The maximum amount of time allowed to finish the minigame.
    * @param {number} props.difficulty - A arbitrary way of delegating the minigame's difficulty.
   */
+
   constructor({ 
     app,
     timeMod = 1, 
@@ -70,6 +71,20 @@ class MiniGame extends Container {
       this.failMG = () => { resolve(false); };
       this.winMG = () => { resolve(true); };
     });
+    this._didTimeoutPromise;
+    this.didTimeout = new Promise( resolve => {
+      // These are the actual declarations of winMG and failMG
+      this._didTimeoutPromise = resolve;
+    });
+    this._minigameComplete = Promise.all([
+      this.didTimeout, 
+      this.didWin,
+    ]);
+
+    this.mask = new Graphics()
+      .beginFill(0xffffff)
+      .drawRect(0,0,800,800)
+      .endFill();
 
     this._init();
   }
@@ -103,6 +118,7 @@ class MiniGame extends Container {
       } 
       
       if (this.timeoutDelayMS <= 0) {
+        this._didTimeoutPromise(true);
         return;
       }else {
         this.timeoutDelayMS -= this.deltaMS;
