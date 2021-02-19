@@ -235,7 +235,7 @@ class GameHUD extends Container {
     x = 400, 
     y = 170
   }) => {
-    return new Promise( resolve => {
+    return () => new Promise( resolve => {
       const { _appReference: app, timeMod } = this;
       const levelNumber = new GameHUDNumbers({ app, timeMod, number});
       levelNumber.alpha = 0;
@@ -281,7 +281,7 @@ class GameHUD extends Container {
     x, 
     y
   }) => {
-    return new Promise( ( resolve ) => {
+    return () => new Promise( ( resolve ) => {
       const { _appReference: app, timeMod } = this;
 
       let animationMS = 0;
@@ -313,11 +313,11 @@ class GameHUD extends Container {
         animationMS += deltaMS;
       }
       app.ticker.add(animation);
-    })
+    });
   }
 
   animateAddLife = ({ duration = 360 * 6, blinkMS = 360 } = {}) => {
-    return new Promise( (resolve, reject) => {
+    return () => new Promise( (resolve, reject) => {
       const heart = this._addHeartSprite(this.lives);
       heart.alpha = 0;
       let animationMS = 0;
@@ -337,11 +337,11 @@ class GameHUD extends Container {
         animationMS += deltaMS;
       }
       this._tickerReference.add(animation);
-    })
+    });
   }
 
   animateRemoveLife = ({ duration = 360 * 6, blinkMS = 360, heartBreakMS = 360 * 2.5, faceDelayMS = 500, } = {}) => {
-    return new Promise( (resolve, reject) => {
+    return () => new Promise( resolve => {
       this.sprites.character.face.default.alpha = 0;
       this.sprites.character.face.squirm.alpha = 1;
       let heartBreak;
@@ -392,6 +392,7 @@ class GameHUD extends Container {
               this.sprites.character.face.squirm.alpha = 0;
               this.sprites.character.face.wake.alpha = 1;
             }
+            console.log('RESOLVED')
             resolve( animationMS - duration );
             this._tickerReference.remove(animation);
           }
@@ -399,11 +400,11 @@ class GameHUD extends Container {
         animationMS += deltaMS;
       }
       this._tickerReference.add(animation);
-    })
+    });
   }
 
   animateDelay = ({ duration = 250 }) => {
-    return new Promise( (resolve, reject) => {
+    return () => new Promise( (resolve, reject) => {
       let animationMS = 0;
       const animation = () => {
         const { deltaMS } = this;
@@ -414,7 +415,7 @@ class GameHUD extends Container {
         animationMS += deltaMS;
       }
       this._tickerReference.add(animation);
-    })
+    });
   }
 
   addLife = () => {
