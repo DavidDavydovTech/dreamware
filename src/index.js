@@ -407,9 +407,18 @@ app.loader
     .add('chompyMosquitoB', 'img/miro/chompy/mosquito_0001.png')
     .add('chompySpiderA', 'img/miro/chompy/spider_0000.png')
     .add('chompySpiderB', 'img/miro/chompy/spider_0001.png')
+    // Sounds
+    .add('sfxBubbleIn', 'sfx/BubbleZoom.mp3')
+    .add('sfxBubbleOut', 'sfx/BubbleZoomOut.mp3')
+    .add('sfxBubbleOutSecret', 'sfx/BUBBLEZOOMOUT2.mp3')
+    .add('bgmNextGame', 'bgm/NextGame.mp3')
+    .add('bgmWinGame', 'bgm/WinGame.mp3')
+    .add('bgmFailGame', 'bgm/FailGame.mp3')
 
 app.loader.load((loader, resources) => {
   init(loader, resources);
+  const { sfxBubbleOutSecret } = resources;
+  // sfxBubbleOutSecret.sound.play();
 });
 
 function init (loader, resources) {
@@ -470,17 +479,17 @@ function init (loader, resources) {
   // console.log(newMG.didWin)
 
   // Rename init and update once making a new instance of the minigame 
-  const { init, update } = GetPingPongFuncs(); 
-  const Impasta = new MiniGame({
-    app,
-    init,
-    update,
-    difficulty: 1,
-    maxMS: 10000,
-  });
+  // const { init, update } = GetPingPongFuncs(); 
+  // const Impasta = new MiniGame({
+  //   app,
+  //   init,
+  //   update,
+  //   difficulty: 1,
+  //   maxMS: 10000,
+  // });
 
-  app.stage.addChild(Impasta);
+  // app.stage.addChild(Impasta);
   // console.log(data)
-  // const HUD = new GameController({ app, MGArray: [], MGBoss: {} });
-  // app.stage.addChild(HUD);
+  const HUD = new GameController({ app, MGArray: [], MGBoss: {} });
+  app.stage.addChild(HUD);
 };
