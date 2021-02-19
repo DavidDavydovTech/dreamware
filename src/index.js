@@ -15,6 +15,7 @@ import GetFlashlightFuncs from './minigames/Flashlight';
 import GetHotdogFuncs from './minigames/Hotdog';
 import GetPingPongFuncs from './minigames/PingPong';
 import GetIceSkateFuncs from './minigames/IceSkate';
+import GetImpastaFuncs from './minigames/Impasta';
 
 const sound = PixiSound.default.sound;
 
@@ -327,7 +328,7 @@ app.loader
   // --Miro Games--
     // Impasta
     .add('snailBgA', 'img/miro/impasta/bg_0000.png')
-    .add('snailBgb', 'img/miro/impasta/bg_0001.png')
+    .add('snailBgB', 'img/miro/impasta/bg_0001.png')
     .add('snailImposterA', 'img/miro/impasta/fakesnail_0000.png')
     .add('snailImposterB', 'img/miro/impasta/fakesnail_0001.png')
     .add('snailLossA', 'img/miro/impasta/loss_0000.png')
@@ -459,16 +460,16 @@ function init (loader, resources) {
   // console.log(newMG.didWin)
 
   // Rename init and update once making a new instance of the minigame 
-  const { init, update } = GetGhostShooterFuncs(); 
-  const PingPong = new MiniGame({
+  const { init, update } = GetImpastaFuncs(); 
+  const Impasta = new MiniGame({
     app,
     init,
     update,
-    difficulty: 3,
+    difficulty: 1,
     maxMS: 10000,
   });
 
-  app.stage.addChild(PingPong);
+  app.stage.addChild(Impasta);
   // console.log(data)
   // const HUD = new GameHUD({ app });
   // app.stage.addChild(HUD);
