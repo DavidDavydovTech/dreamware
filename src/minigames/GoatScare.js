@@ -200,7 +200,7 @@ export const GetGoatScareFuncs = () => {
       }
     }
 
-    if (validPosition && validPosition !== positionPrev ) {
+    if (typeof validPosition === 'number' && validPosition !== positionPrev) {
       const nextValidPosition = (positionPrev + direction) % positions.length;
       const lastValidPosition = (positionPrev - direction) % positions.length;
       if ( nextValidPosition === validPosition ) {
