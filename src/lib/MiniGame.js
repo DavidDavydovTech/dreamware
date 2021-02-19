@@ -24,6 +24,7 @@ class MiniGame extends Container {
     },
     maxMS = 5000,
     difficulty = 1,
+    winOnTimeout = false,
   },) {
     super();
 
@@ -52,6 +53,7 @@ class MiniGame extends Container {
     };
     this.init = init;
 
+    this.winOnTimeout = winOnTimeout;
     this.difficulty = difficulty;
 
     this.timeMod = timeMod;
@@ -61,8 +63,8 @@ class MiniGame extends Container {
 
     this.didWin = new Promise( (resolve, reject) => {
       // These are the actual declarations of winMG and failMG
-      this.failMG = () => { resolve(false); this.destroy(); };
-      this.winMG = () => { resolve(true); this.destroy(); };
+      this.failMG = () => { resolve(false); };
+      this.winMG = () => { resolve(true); };
     });
 
     this._init();
@@ -84,7 +86,14 @@ class MiniGame extends Container {
 
   tickMG = () => {
     if ( this.maxMS < this.totalMS && this.maxMS !== 0 ) {
-      this.failMG();
+      const didWin = this.didWin;
+      if ( typeof didWin !== 'boolean' ) {
+        if ( !this.winOnTimeout ) {
+          this.failMG();
+        } else {
+          this.winMG();
+        }
+      }
       return;
     }
     this.deltaMS = this._tickerReference.elapsedMS * this.timeMod;
