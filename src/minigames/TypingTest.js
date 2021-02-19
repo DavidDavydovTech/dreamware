@@ -133,7 +133,7 @@ export const GetTypingTestFuncs = () => {
     sprites.typeLoss.x = 60;
     sprites.typeLoss.y = 50;
     //this.addChild(sprites.typeLoss);
-    // typeWin (dynamic)
+    // typeWin (hidden)
     sprites.typeWin.x = 60;
     sprites.typeWin.y = 50;
     //this.addChild(sprites.typeWin);
