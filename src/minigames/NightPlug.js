@@ -2,7 +2,7 @@ import DoodleSprite from '../lib/DoodleSprite';
 
 export const GetNightPlugFuncs = () => {
   // Load textures in the array
-  const texturesArray = ['plugArmDarkA', 'plugArmDarkB', 'plugArmLightA', 'plugArmLightB', 'plugSocketLightA', 'plugSocketLightB', 'plugBgA', 'plugBgB', 'plugDarknessA', 'plugSocketA', 'plugSocketB'];
+  const texturesArray = ['plugArmDarkA', 'plugArmDarkB', 'plugArmLightPluggedA', 'plugArmLightPluggedB', 'plugSocketLightA', 'plugSocketLightB', 'plugBgA', 'plugBgB', 'plugDarknessA', 'plugSocketA', 'plugSocketB'];
   const textures = {};
   const populateTextures = (resources) => {
     for ( let texture of texturesArray) {
@@ -35,7 +35,8 @@ export const GetNightPlugFuncs = () => {
   const populateMousePosition = ( app ) => {
     mousePosition = app.renderer.plugins.interaction.mouse.global;
   };
-
+  // Extras
+  const plugPivotY = 30;
   function init () {    
     // Get the properties we need:
     const { _appReference, timeMod } = this;
@@ -44,42 +45,74 @@ export const GetNightPlugFuncs = () => {
     populateSprites(textures, { app: _appReference, timeMod });
     populateMousePosition( _appReference );
 
-    console.log(sprites)
     // Sprites
     // plugDarkness 
     this.addChild(sprites.plugDarkness);
-    // plugBg
-    sprites.plugBg.x = 400;
-    sprites.plugBg.y = 800;
-    sprites.plugBg.pivot.set( sprites.plugBg.width / 2, sprites.plugBg.height );
-    this.addChild(sprites.plugBg);
     // plugSocket 
-    sprites.plugSocket.x = Math.floor( Math.random() * ( 800 - sprites.plugSocket.width ) );
-    sprites.plugSocket.y = Math.floor( Math.random() * ( 800 - sprites.plugSocket.height ) );
+    sprites.plugSocket.pivot.set( sprites.plugSocket.width / 2, (sprites.plugSocket.height / 6) * 5 )
+    sprites.plugSocket.x = Math.floor( Math.random() * ( 800 - sprites.plugSocket.width ) + sprites.plugSocket.width / 2);
+    sprites.plugSocket.y = Math.floor( Math.random() * ( 800 - sprites.plugSocket.height ) + sprites.plugSocket.height / 2);
     this.addChild(sprites.plugSocket);
     // plugArmDark
     sprites.plugArmDark.x = 400;
     sprites.plugArmDark.y = 400;
-    sprites.plugArmDark.pivot.set( sprites.plugArmDark.width / 2, sprites.plugArmDark.height / 8 );
+    sprites.plugArmDark.pivot.set( sprites.plugArmDark.width / 2 + 10, plugPivotY );
     this.addChild(sprites.plugArmDark);
-    console.log(this);
   };
 
+  let didWin = false;
+  let didWinRan = false;
   function update () {;
-    const { plugArmDark, plugSocket } = sprites;
+    if (!didWin) {
+      const { plugArmDark, plugArmLightPlugged, plugSocket } = sprites;
     
-    plugArmDark.x = plugArmDark.x + ( mousePosition.x - plugArmDark.x ) / 10;
-    plugArmDark.y = plugArmDark.y + ( mousePosition.y - plugArmDark.y ) / 10;
-    if ( plugArmDark.y < plugArmDark.height / 8 + 50 ) plugArmDark.y = plugArmDark.height / 8 + 50;
+      plugArmDark.x = plugArmDark.x + ( mousePosition.x - plugArmDark.x ) / 5 + 5 * this.difficulty;
+      plugArmDark.y = plugArmDark.y + ( mousePosition.y - plugArmDark.y ) / 5 + 5 * this.difficulty;
+      if ( plugArmDark.y < plugPivotY + 50 ) plugArmDark.y = plugPivotY + 50;
 
-    if (
-      Math.abs(plugArmDark.x - plugSocket.x) <= 50 
-      && Math.abs(plugArmDark.y - plugSocket.y) <= 50 
-      && Math.abs(mousePosition.x - plugSocket.x) <= 50 
-      && Math.abs(mousePosition.y - plugSocket.y) <= 50 
-    ) {
+      const distToPlug = ( Math.abs(plugArmDark.x - plugSocket.x) + Math.abs(plugArmDark.y - plugSocket.y) ) / 1.45;
+      const plugMaxRange = 225 - ( 50 * this.difficulty );
+      const plugAlpha = ( plugMaxRange / distToPlug ) - 1;
+      plugSocket.alpha = distToPlug > plugMaxRange ? 0 : plugAlpha;
+      if (
+        Math.abs(plugArmDark.x - plugSocket.x) <= 40
+        && Math.abs(plugArmDark.y - plugSocket.y) <= 40
+        && Math.abs(mousePosition.x - plugSocket.x) <= 20
+        && Math.abs(mousePosition.y - plugSocket.y) <= 20
+      ) {
+        didWin = true;
+        // this.winMG();
+        return; 
+      }
+    } else if (!didWinRan) {
+      const { 
+        plugSocket, 
+        plugArmDark, 
+        plugDarkness,
+      
+        plugBg,
+        plugArmLightPlugged,
+        plugSocketLight,
+      } = sprites;
+      plugSocket.alpha = 0;
+      plugArmDark.alpha = 0;
+      plugDarkness.alpha = 0;
+      // plugArmDark 
+      plugArmLightPlugged.x = plugSocket.trueX;
+      plugArmLightPlugged.y = plugSocket.trueY;
+      plugArmLightPlugged.pivot.set( plugArmDark.width / 2 - 5, plugPivotY + 25);
+      this.addChild(plugArmLightPlugged);
+      // plugBg
+      plugBg.x = 400;
+      plugBg.y = 800;
+      plugBg.pivot.set( plugBg.width / 2, plugBg.height );
+      this.addChild(plugBg);
+      plugSocketLight.x = plugSocket.trueX;
+      plugSocketLight.y = plugSocket.trueY;
+      plugSocketLight.pivot.set( plugSocketLight.width / 2 , (plugSocketLight.height / 6) * 5 )
+      this.addChild(plugSocketLight);
       this.winMG();
-      return; 
+      didWinRan = true;
     }
   };
   return { init, update };
