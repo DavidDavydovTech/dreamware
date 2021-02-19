@@ -7,7 +7,14 @@ import GameHUD from './lib/GameHUD';
 // Temp Import 
 import GetGoatScareFuncs from './minigames/GoatScare';
 import GetNightPlugFuncs from './minigames/NightPlug';
-
+import GetGhostShooterFuncs from './minigames/GhostShooter';
+import GetTypingTestFuncs from './minigames/TypingTest';
+import GetPitJumperFuncs from './minigames/PitJumper';
+//import GetSketchManFuncs from './minigames/SketchMan';
+import GetFlashlightFuncs from './minigames/Flashlight';
+import GetHotdogFuncs from './minigames/Hotdog';
+import GetPingPongFuncs from './minigames/PingPong';
+import GetIceSkateFuncs from './minigames/IceSkate';
 
 const sound = PixiSound.default.sound;
 
@@ -114,7 +121,7 @@ app.loader
     .add('pingPaddleA', 'img/clingy/pingpong/paddle_0000.png')
     .add('pingPaddleB', 'img/clingy/pingpong/paddle_0001.png')
     .add('pingEnPaddleA', 'img/clingy/pingpong/enemyp_0000.png')
-    .add('pingEnPaddleb', 'img/clingy/pingpong/enemyp_0001.png')
+    .add('pingEnPaddleB', 'img/clingy/pingpong/enemyp_0001.png')
     .add('pingWinA', 'img/clingy/pingpong/win_0000.png')
     .add('pingWinB', 'img/clingy/pingpong/win_0001.png')
     .add('pingLossA', 'img/clingy/pingpong/loss_0000.png')
@@ -170,6 +177,8 @@ app.loader
     .add('typeLossB', 'img/clingy/typing/loss_0001.png')
     .add('typeWinA', 'img/clingy/typing/win_0000.png')
     .add('typeWinB', 'img/clingy/typing/win_0001.png')
+    .add('typeKeyboardA', 'img/clingy/typing/keyboard_0000.png')
+    .add('typeKeyboardB', 'img/clingy/typing/keyboard_0001.png')
     // Hotdog
     .add('hdAngerFaceA', 'img/clingy/hotdog/anger_0000.png')
     .add('hdAngerFaceB', 'img/clingy/hotdog/anger_0001.png')
@@ -179,8 +188,8 @@ app.loader
     .add('hdBubbleB', 'img/clingy/hotdog/bubble_0001.png')
     .add('hdBunForwardA', 'img/clingy/hotdog/bunf_0000.png')
     .add('hdBunForwardB', 'img/clingy/hotdog/bunf_0001.png')
-    .add('hdBunA', 'img/clingy/hotdog/buns_0000.png')
-    .add('hdBunB', 'img/clingy/hotdog/buns_0001.png')
+    .add('hdMeatA', 'img/clingy/hotdog/buns_0000.png')
+    .add('hdMeatB', 'img/clingy/hotdog/buns_0001.png')
     .add('hdCheeseA', 'img/clingy/hotdog/cheese_0000.png')
     .add('hdCheeseB', 'img/clingy/hotdog/cheese_0001.png')
     .add('hdCounterA', 'img/clingy/hotdog/counter_0000.png')
@@ -219,8 +228,8 @@ app.loader
     .add('flashFloatyManA', 'img/impy/flashlight/floatyman_0000.png')
     .add('flashFloatyManB', 'img/impy/flashlight/floatyman_0001.png')
     .add('flashImpyDarkA', 'img/impy/flashlight/impydark_0000.png')
-    .add('flashImpyDarkB', 'img/impy/flashlight/impydark_0001.png')
-    .add('flashImpyDark2A', 'img/impy/flashlight/impydark2_0000.png')
+    .add('flashImpyDarkB', 'img/impy/flashlight/impydark2_0000.png')
+    .add('flashImpyDark2A', 'img/impy/flashlight/impydark_0001.png')
     .add('flashImpyDark2B', 'img/impy/flashlight/impydark2_0001.png')
     .add('flashImpyLossA', 'img/impy/flashlight/impyloss_0000.png')
     .add('flashImpyLossB', 'img/impy/flashlight/impyloss_0001.png')
@@ -277,7 +286,7 @@ app.loader
     .add('sketchPenA', 'img/impy/sketchman/pen_0000.png')
     .add('sketchPenB', 'img/impy/sketchman/pen_0001.png')
     .add('sketchStickmanA', 'img/impy/sketchman/stickman_0000.png')
-    .add('sketchStickman', 'img/impy/sketchman/stickman_0001.png')
+    .add('sketchStickmanB', 'img/impy/sketchman/stickman_0001.png')
     // Pit Jumper
     .add('jumpDeathPitA', 'img/impy/pitjump/deathpit_0000.png')
     .add('jumpDeathPitB', 'img/impy/pitjump/deathpit_0001.png')
@@ -392,7 +401,7 @@ app.loader.load((loader, resources) => {
 
 function init (loader, resources) {
   const { zeroA, zeroB } = resources;
-  console.log( app.loader.resources, resources)
+  //console.log( app.loader.resources, resources)
   // const plant_boy = new Container();
   // plant_boy.x = SCREEN_WIDTH / 2;
   // plant_boy.y = SCREEN_HEIGHT / 2;
@@ -448,15 +457,15 @@ function init (loader, resources) {
   // console.log(newMG.didWin)
 
   // Rename init and update once making a new instance of the minigame 
-  const { init, update } = GetNightPlugFuncs(); 
-  const NightPlug = new MiniGame({
+  const { init, update } = GetIceSkateFuncs(); 
+  const IceSkate = new MiniGame({
     app,
     init,
     update,
     maxMS: 60000,
   });
 
-  app.stage.addChild(NightPlug);
+  app.stage.addChild(IceSkate);
   // console.log(data)
   // const HUD = new GameHUD({ app });
   // app.stage.addChild(HUD);
