@@ -23,7 +23,7 @@ class GameHUD extends Container {
     timeModMeterMax = 3,
     lives = 4,
     livesMax = 4,
-    character = 'clingy'
+    character = 'impy'
   }) {
     super();
 
@@ -164,6 +164,123 @@ class GameHUD extends Container {
         clingyWake.alpha = 0;
         this.addChild(clingyWake);
         this.sprites.character.face.wake = clingyWake;
+        break;
+      }
+      case 'impy': {
+        const { 
+          impyA, 
+          impyB,
+          impyFaceA,
+          impyFaceB,
+          impyFaceAngA,
+          impyFaceAngB,
+          impyFaceAngC,
+        } = app.loader.resources;
+        // Impy Body
+        const impyBody = new DoodleSprite({
+          texture: [impyA.texture, impyB.texture],
+          app,
+          timeMod: this.timeMod
+        });
+        impyBody.pivot.set( impyBody.width / 2, impyBody.height)
+        impyBody.x = 400;
+        impyBody.y = 750;
+        this.addChild(impyBody);
+        this.sprites.character.body = impyBody;
+        // Impy Sleep
+        const impySleep = new DoodleSprite({
+          texture: [impyFaceA.texture, impyFaceB.texture],
+          app,
+          timeMod: this.timeMod
+        });
+        impySleep.pivot.set( impySleep.width / 2, impySleep.height / 2);
+        impySleep.x = 450;
+        impySleep.y = 640;
+        this.addChild(impySleep);
+        this.sprites.character.face.default = impySleep;
+        // Impy Sleep
+        const impySquirm = new DoodleSprite({
+          texture: [impyFaceAngA.texture],
+          app,
+          timeMod: this.timeMod
+        });
+        impySquirm.pivot.set( impySleep.width / 2, impySleep.height / 2);
+        impySquirm.x = 450;
+        impySquirm.y = 640;
+        impySquirm.alpha = 0;
+        this.addChild(impySquirm);
+        this.sprites.character.face.squirm = impySquirm;
+        // Impy Wake
+        const impyWake = new DoodleSprite({
+          texture: [impyFaceAngB.texture, impyFaceAngC.texture],
+          app,
+          timeMod: this.timeMod
+        });
+        impyWake.pivot.set( impySleep.width / 2, impySleep.height / 2);
+        impyWake.x = 450;
+        impyWake.y = 640;
+        impyWake.alpha = 0;
+        this.addChild(impyWake);
+        this.sprites.character.face.wake = impyWake;
+        break;
+      }
+      case 'miro': {
+        const { 
+          miroA, 
+          miroB,
+          miroFaceA,
+          miroFaceB,
+          miroFaceAngA,
+          miroFaceAngB,
+          miroFaceAngC,
+          miroFaceAngD,
+        } = app.loader.resources;
+        // miro Body
+        const miroBody = new DoodleSprite({
+          texture: [miroA.texture, miroB.texture],
+          app,
+          timeMod: this.timeMod
+        });
+        miroBody.pivot.set( miroBody.width / 2, miroBody.height)
+        miroBody.x = 400;
+        miroBody.y = 750;
+        this.addChild(miroBody);
+        this.sprites.character.body = miroBody;
+        // miro Sleep
+        const miroSleep = new DoodleSprite({
+          texture: [miroFaceA.texture, miroFaceB.texture],
+          app,
+          timeMod: this.timeMod
+        });
+        miroSleep.pivot.set( miroSleep.width / 2, miroSleep.height / 2);
+        miroSleep.x = 380;
+        miroSleep.y = 560;
+        this.addChild(miroSleep);
+        this.sprites.character.face.default = miroSleep;
+        // miro Sleep
+        const miroSquirm = new DoodleSprite({
+          texture: [miroFaceAngA.texture, miroFaceAngB.texture],
+          app,
+          timeMod: this.timeMod
+        });
+        miroSquirm.pivot.set( miroSleep.width / 2, miroSleep.height / 2);
+        miroSquirm.x = 374;
+        miroSquirm.y = 440;
+        miroSquirm.alpha = 0;
+        this.addChild(miroSquirm);
+        this.sprites.character.face.squirm = miroSquirm;
+        // miro Sleep
+        const miroWake = new DoodleSprite({
+          texture: [miroFaceAngC.texture, miroFaceAngD.texture],
+          app,
+          timeMod: this.timeMod
+        });
+        miroWake.pivot.set( miroSleep.width / 2, miroSleep.height / 2);
+        miroWake.x = 374;
+        miroWake.y = 440;
+        miroWake.alpha = 0;
+        this.addChild(miroWake);
+        this.sprites.character.face.wake = miroWake;
         break;
       }
     }
