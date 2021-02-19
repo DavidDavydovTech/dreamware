@@ -4,6 +4,7 @@ import Keyboard from './keyboard';
 import MiniGame from './lib/MiniGame';
 import DoodleSprite from './lib/DoodleSprite';
 import GameHUD from './lib/GameHUD';
+import GameController from './lib/GameController';
 // Temp Import 
 import GetGoatScareFuncs from './minigames/GoatScare';
 import GetNightPlugFuncs from './minigames/NightPlug';
@@ -16,11 +17,8 @@ import GetHotdogFuncs from './minigames/Hotdog';
 import GetPingPongFuncs from './minigames/PingPong';
 import GetIceSkateFuncs from './minigames/IceSkate';
 import GetImpastaFuncs from './minigames/Impasta';
-<<<<<<< HEAD
-import GameController from './lib/GameController';
-=======
+
 import GetFlowersFuncs from './minigames/Flowers';
->>>>>>> 1f31f1c2ef5adcf2eb1deabd8e24b82d8f567d28
 
 const sound = PixiSound.default.sound;
 
