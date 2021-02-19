@@ -460,8 +460,8 @@ function init (loader, resources) {
   // console.log(newMG.didWin)
 
   // Rename init and update once making a new instance of the minigame 
-  const { init, update } = GetPingPongFuncs(); 
-  const PingPong = new MiniGame({
+  const { init, update } = GetIceSkateFuncs(); 
+  const IceSkate = new MiniGame({
     app,
     init,
     update,
@@ -469,7 +469,7 @@ function init (loader, resources) {
     maxMS: 50000,
   });
 
-  app.stage.addChild(PingPong);
+  app.stage.addChild(IceSkate);
   // console.log(data)
   // const HUD = new GameHUD({ app });
   // app.stage.addChild(HUD);
