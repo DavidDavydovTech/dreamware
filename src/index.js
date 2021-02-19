@@ -462,6 +462,7 @@ function init (loader, resources) {
     app,
     init,
     update,
+    difficulty: 3,
     maxMS: 60000,
   });
 
