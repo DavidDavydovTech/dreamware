@@ -16,6 +16,7 @@ import GetHotdogFuncs from './minigames/Hotdog';
 import GetPingPongFuncs from './minigames/PingPong';
 import GetIceSkateFuncs from './minigames/IceSkate';
 import GetImpastaFuncs from './minigames/Impasta';
+import GameController from './lib/GameController';
 
 const sound = PixiSound.default.sound;
 
@@ -460,17 +461,17 @@ function init (loader, resources) {
   // console.log(newMG.didWin)
 
   // Rename init and update once making a new instance of the minigame 
-  const { init, update } = GetImpastaFuncs(); 
-  const Impasta = new MiniGame({
-    app,
-    init,
-    update,
-    difficulty: 1,
-    maxMS: 10000,
-  });
+  // const { init, update } = GetImpastaFuncs(); 
+  // const Impasta = new MiniGame({
+  //   app,
+  //   init,
+  //   update,
+  //   difficulty: 1,
+  //   maxMS: 10000,
+  // });
 
-  app.stage.addChild(Impasta);
+  // app.stage.addChild(Impasta);
   // console.log(data)
-  // const HUD = new GameHUD({ app });
-  // app.stage.addChild(HUD);
+  const HUD = new GameController({ app, MGArray: [], MGBoss: {} });
+  app.stage.addChild(HUD);
 };

@@ -101,7 +101,6 @@ class GameHUD extends Container {
     box.pivot.set( box.width / 2 , box.height )
     this.addChild(box);
     // Hearts
-    this._initHearts();
     this._initCharacter();
   }
 
@@ -276,14 +275,14 @@ class GameHUD extends Container {
   }
 
   animateZoomCycle = ({ 
-    zoomInMS = 1000,
+    zoomMS = 1000,
     zoomInScale = 2,
-    x, 
-    y
+    x = 400, 
+    y = 170
   }) => {
     return () => new Promise( ( resolve ) => {
       const { _appReference: app, timeMod } = this;
-
+      // console.log(x);
       let animationMS = 0;
       const startX = this.x;
       const startY = this.y;
@@ -291,22 +290,26 @@ class GameHUD extends Container {
       const animation = () => {
         const { deltaMS } = this;
         switch (true) {
-          case animationMS <= zoomInMS: {
-            let animationProgress = ( animationMS / zoomInMS );
+          case animationMS <= zoomMS: {
+            let animationProgress = ( animationMS / zoomMS );
             if (animationProgress > 1) animationProgress = 1;
             let zoomAmount = startScale._x + animationProgress * ( zoomInScale - startScale._x);
             this.scale.set( zoomAmount, zoomAmount );
             let currentX = startX + animationProgress * ( x - startX );
             let currentY = startY + animationProgress * ( y - startY );
+
+            // console.log(this.x);
             this.x = currentX;
             this.y = currentY;
             break;
           }
           default: {
-            this.scale.set( zoomInScale, zoomInScale );;
+            this.scale.set( zoomInScale, zoomInScale );
             this.x = x;
+
+            // console.log(this.x);
             this.y = y;
-            resolve( animationMS - zoomInMS );
+            resolve( animationMS - zoomMS );
             app.ticker.remove(animation);
           }
         }
@@ -317,7 +320,7 @@ class GameHUD extends Container {
   }
 
   animateAddLife = ({ duration = 360 * 6, blinkMS = 360 } = {}) => {
-    return () => new Promise( (resolve, reject) => {
+    return () => new Promise( resolve => {
       const heart = this._addHeartSprite(this.lives);
       heart.alpha = 0;
       let animationMS = 0;
@@ -345,7 +348,9 @@ class GameHUD extends Container {
       this.sprites.character.face.default.alpha = 0;
       this.sprites.character.face.squirm.alpha = 1;
       let heartBreak;
+      console.log(this.sprites.hearts)
       const heart = this.sprites.hearts.pop();
+      console.log(this.sprites.hearts)
       heart.alpha = 0;
       let animationMS = 0;
       let animationBlink = 0;
@@ -380,7 +385,7 @@ class GameHUD extends Container {
             break;
           }
           case animationMS < duration + heartBreakMS + faceDelayMS: {
-
+            heartBreak.alpha = 0;
             break;
           }
           default: {
@@ -392,7 +397,7 @@ class GameHUD extends Container {
               this.sprites.character.face.squirm.alpha = 0;
               this.sprites.character.face.wake.alpha = 1;
             }
-            console.log('RESOLVED')
+            // console.log('RESOLVED')
             resolve( animationMS - duration );
             this._tickerReference.remove(animation);
           }
@@ -404,18 +409,16 @@ class GameHUD extends Container {
   }
 
   animateDelay = ({ duration = 250 }) => {
-    return () => new Promise( (resolve, reject) => {
-      let animationMS = 0;
-      const animation = () => {
+    let animationMS = 0;
+    return function (resolve) {
         const { deltaMS } = this;
         if (animationMS > duration) {
           resolve( animationMS - duration );
           this._tickerReference.remove(animation);
+          // console.log(`Finished in ${animationMS} milliseconds!`);
         }
         animationMS += deltaMS;
-      }
-      this._tickerReference.add(animation);
-    });
+    }
   }
 
   addLife = () => {
@@ -426,8 +429,20 @@ class GameHUD extends Container {
   }
 
   removeLife = () => {
-    this.lives += 1;
+    this.lives -= 1;
     return this.animateRemoveLife();
+  }
+
+  zoomIn = ({ zoomInMS = 2500 } = {}) => {
+    return this.animateZoomCycle({ zoomMS: zoomInMS, zoomInScale: 5, x: -320 * 5, y: -80 * 5 })
+  }
+
+  zoomOut = ({ zoomOutMS = 2500 } = {}) => {
+    return this.animateZoomCycle({ zoomMS: zoomOutMS, zoomInScale: 1, x: 0, y: 0 })
+  }
+
+  levelNumber = (number, options) => {
+    return this.animateLevelNumberCycle({ number, ...options })
   }
 
   tickHUD = () => {

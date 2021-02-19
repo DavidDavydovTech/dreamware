@@ -1,8 +1,33 @@
 import { Container } from 'pixi.js';
 import GameHUD from './GameHUD';
+// import Animation from './Animation';
 // import * as PixiSound from 'pixi-sound';
 // import Keyboard from './keyboard';
 // const sound = PixiSound.default.sound;
+class Animation {
+  constructor(animationFunc, context, props) {
+    this.animationFunc = animationFunc;
+    this.context = context;
+    this.props = props
+  }
+
+  then(resolve, reject) {
+    this.animationFunc.call(this.context, { resolve, ...this.props });
+  }
+  
+}
+
+const AnimationFactory = (props) => {
+  const animation = ({ resolve, duration = 1000, message = 'hi' }) => {
+    console.log(message)
+    setTimeout(() => resolve(message), duration);
+  };
+
+  return () => {
+    return new Animation(animation, this, {});
+  }
+}
+
 
 class GameController extends Container {
   constructor({ 
@@ -44,35 +69,52 @@ class GameController extends Container {
 
     this.HUDContainer = new GameHUD({ app: this._appReference, timeMod });
     this.addChild(this.HUDContainer);
-    this.HUDContainer.animateLevelNumberCycle({ number: 1 });
 
-    this.animation = new Promise( resolve => resolve(0));
-    
-    this.queAnimation( this.HUDContainer.animateRemoveLife(), { noDelay: true })
-    this.queAnimation( this.HUDContainer.animateRemoveLife(), { noDelay: true })
-    // this.queAnimation( this.HUDContainer.animateRemoveLife())
-    // this.queAnimation( this.HUDContainer.animateLevelNumberCycle({ number: 2}))
-    // this.queAnimation( this.HUDContainer.animateZoomCycle({ zoomInMS: 1000 }));
+    // Animation que;
+    this._animationQue = [];
+    this._animationRunning = false;
+    this._tickerReference.add(this._runAnimationQue);
+
+    this.queAnimation(this.HUDContainer.removeLife())
+    this.queAnimation(this.HUDContainer.levelNumber(1))
+    this.queAnimation(this.HUDContainer.zoomIn())
+    this.queAnimation(this.HUDContainer.zoomOut())
+    this.queAnimation(this.HUDContainer.levelNumber(2))
+    this.queAnimation(this.HUDContainer.addLife())
   }
 
-  queAnimation = ( animation, { delayMS = 350, noDelay = false} = {} ) => {
-    if ( this.animation instanceof Promise ) {
-      if ( noDelay === true ) {
-        this.animation
-          .then( () => {
-            
-            return animation();
-          } );
-      } else {
-        this.animation
-          .then( animation )
-          .then( this.HUDContainer.animateDelay({ duration: delayMS }) );
-      }
-    } else {  
-      alert('Critial error, if you\'re the developer check the logs.');
-      throw new Error('GameController.queAnimation: this.animation is no longer a Promise!')
+  _init = () => {
+    this._tickerReference.add(this._runAnimationQue);
+  }
+
+  _runBetweenAnimations = () => {
+    
+  }
+
+  _runAnimationQue = async () => {
+    if ( this._animationQue.length > 0 && this._animationRunning === false ) {
+      this._animationRunning = true;
+      console.log(this._animationQue);
+      const animation = this._animationQue.shift();
+      await animation();
+      this._runBetweenAnimations();
+      this._animationRunning = false;
+      console.log( this._animationQue, this._animationQue.length, this._animationRunning === false );
     }
   }
+
+  queAnimation = (animation, { delay = true, delayMS = 250 } = {}) => {
+    if (delay === true) {
+      this._animationQue.push(animation);
+    } else {
+      this._animationQue.push(animation);
+    }
+  }
+
+  delayAnimation = ( delay ) => {
+    return;
+  }
+
 }
 
 export default GameController;
