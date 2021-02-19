@@ -21,6 +21,7 @@ let app = new Application({
   height: SCREEN_HEIGHT,
   backgroundColor: 0xffffff,
 });
+app.interactionData = new InteractionData();
 document.body.appendChild(app.view);
 Ticker.shared.autoStart = true;
 
@@ -448,10 +449,11 @@ function init (loader, resources) {
     app,
     init,
     update,
+    maxMS: 60000,
   });
 
   app.stage.addChild(NightPlug);
-
+  // console.log(data)
   // const HUD = new GameHUD({ app });
   // app.stage.addChild(HUD);
 };
