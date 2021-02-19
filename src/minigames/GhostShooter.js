@@ -59,10 +59,10 @@ export const GetGhostShooterFuncs = () => {
     populateTextures(_appReference.loader.resources);
     populateSprites(textures, { app: _appReference, timeMod });
     populateMousePosition( _appReference );
-    
+    console.log(sprites);
 
     // Sprites
-    sprites.ghostCrosshair.textureOffset = [{x : 0, y : 0}, {x : -4, y : -4}];
+    sprites.ghostCrosshair.textureOffset = [{x : 1, y : 8}, {x : -4, y : 9}];
     sprites.ghostCrosshair.textureOffsetActive = true;
     // ghostBg
     sprites.ghostBg.x = 0;
@@ -107,6 +107,11 @@ export const GetGhostShooterFuncs = () => {
   class GhostEnemy extends Container{
     constructor (sprite) {
       super()
+      this._spriteRef = sprite;
+      this.health = 1;
+      this.deathMS = 500;
+      this._papMS = 500;
+      this.papMS = 0;
       this.yOriginal = 0;
       this.ySeed = Math.floor( Math.random() * 30 + 20);
       this.directionX = 1;
@@ -115,25 +120,59 @@ export const GetGhostShooterFuncs = () => {
       this.speedY = Math.floor( Math.random() * 250 + 750) + 2;
       this.addChild(sprite);
       ghosts.push(this);
+      this.index = ghosts.length - 1;
+      this.interactive = true;
+      this.buttonMode = true;
+      this.on('pointerdown', this.onClick);
       this._init();
     }
+
     _init = () => {
       this.interactive = true;
       this.y = Math.floor( Math.random() * ( 800 - this.height ) );
       this.yOriginal = this.y;
       this.x = Math.floor( Math.random() * ( 800 + this.width * 2) - this.width );
     }
+
+    onClick = () => {
+      if (this.papMS <= 0) {
+        this.health -= 1;
+        this.papMS = this._papMS;
+      }
+    }
+
     update = (deltaMS) => {
-      const ghostDeltaY = (deltaMS / this.speedY) * 100;
-      const ghostDeltaX = (deltaMS / this.speedX) * 800;
-      this.y += this.directionY * ghostDeltaY;
-      this.x += this.directionX * ghostDeltaX;
-      if (this.x > 800 + this.width) { this.directionX = -1; }
-      else if (this.x < -this.width) { this.directionX = 1; }
-      if (this.y > this.yOriginal + this.ySeed) { this.directionY = -1; }
-      else if (this.y < this.yOriginal - this.ySeed) { this.directionY = 1; }
+      if ( this.deathMS <= 0 ) {
+        // ghosts[this.index] = true;
+        this.deathMS = 0;
+        this.destroy();
+      } else if ( this.health <=0 ) {
+        this.deathMS -= deltaMS;
+      } else {
+        const ghostDeltaY = (deltaMS / this.speedY) * 100;
+        const ghostDeltaX = (deltaMS / this.speedX) * 800;
+        this.y += this.directionY * ghostDeltaY;
+        this.x += this.directionX * ghostDeltaX;
+        if (this.x > 800 + this.width) { this.directionX = -1; }
+        else if (this.x < -this.width) { this.directionX = 1; }
+        if (this.y > this.yOriginal + this.ySeed) { this.directionY = -1; }
+        else if (this.y < this.yOriginal - this.ySeed) { this.directionY = 1; }
+      }
+      if (this.papMS > 0) {
+        console.log('Pap\'d!')
+        this._spriteRef.texturesArray = [textures.ghostPapA, textures.ghostPapB];
+        this._spriteRef.texture = this._spriteRef.texturesArray[this._spriteRef.textureIndex % this._spriteRef.texturesArray.length];
+        this.papMS -= deltaMS;
+      } else {
+        this._spriteRef.texturesArray = [textures.ghostGhostA, textures.ghostGhostA];
+        this._spriteRef.texture = this._spriteRef.texturesArray[this._spriteRef.textureIndex % this._spriteRef.texturesArray.length];
+        this.papMS -= deltaMS;
+      }
     }
   }
+
+  let didEnd = false;
+  
   function update () {;
     const { ghostCrosshair } = sprites;
     const { deltaMS } = this;
@@ -141,17 +180,35 @@ export const GetGhostShooterFuncs = () => {
     ghosts.forEach(e => e.update(deltaMS));
     ghostCrosshair.x = ghostCrosshair.x + ( mousePosition.x - ghostCrosshair.x ) + 6;
     ghostCrosshair.y = ghostCrosshair.y + ( mousePosition.y - ghostCrosshair.y );
-    // if ( plugArmDark.y < plugArmDark.height / 8 + 50 ) plugArmDark.y = plugArmDark.height / 8 + 50;
+    
+    let deathMS;
+    if (didEnd === false) {
+      deathMS = ghosts.map(e => e.deathMS).reduce((p,c) => p + c);
+    }
 
-    // if (
-    //   Math.abs(plugArmDark.x - plugSocket.x) <= 50 
-    //   && Math.abs(plugArmDark.y - plugSocket.y) <= 50 
-    //   && Math.abs(mousePosition.x - plugSocket.x) <= 50 
-    //   && Math.abs(mousePosition.y - plugSocket.y) <= 50 
-    // ) {
-    //   this.winMG();
-    //   return; 
-    // }
+    if ( this.totalMS >= this.maxMS - 100 ) {
+      if ( didEnd === false ) { 
+        this.maxMS = this.maxMS + 2000
+        console.log('lost!')
+        sprites.ghostBg.alpha = 0;
+        sprites.ghostCrosshair.alpha = 0;
+        ghosts.forEach( e => e.alpha = 0 );
+        this.addChild(sprites.ghostLoss);
+        sprites.ghostLoss.pivot.set( sprites.ghostLoss.width / 2, sprites.ghostLoss.height / 2);
+        sprites.ghostLoss.x = 400;
+        sprites.ghostLoss.y = 400;
+        didEnd = true;
+      }
+    } else if ( this.didWin === true || deathMS <= 0) {
+      if ( didEnd === false ) {
+        didEnd = true;
+        this.winOnTimeout = true;
+        console.log('won!')
+        sprites.ghostBg.alpha = 0;
+        sprites.ghostCrosshair.alpha = 0;
+        this.addChild(sprites.ghostWin);
+      }
+    }
   };
   return { init, update };
 };
