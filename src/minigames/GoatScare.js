@@ -219,7 +219,7 @@ export const GetGoatScareFuncs = () => {
       sprites.goatSneak.alpha = 0;
       sprites.goatSpook.alpha = 1;
       if (!didWin) {
-        this.winMG();
+        this.winOnTimeout();
       }
       didWin = true;
     } else {
