@@ -6,6 +6,7 @@ import DoodleSprite from './lib/DoodleSprite';
 import GameHUD from './lib/GameHUD';
 // Temp Import 
 import GetGoatScareFuncs from './minigames/GoatScare';
+import GetNightPlugFuncs from './minigames/NightPlug';
 
 
 const sound = PixiSound.default.sound;
@@ -252,6 +253,10 @@ app.loader
     // Night Plug 
     .add('plugArmDarkA', 'img/impy/nightplug/arm_0000.png')
     .add('plugArmDarkB', 'img/impy/nightplug/arm_0001.png')
+    .add('plugArmLightA', 'img/impy/nightplug/armlight_0000.png')
+    .add('plugArmLightB', 'img/impy/nightplug/armlight_0001.png')
+    .add('plugSocketLightA', 'img/impy/nightplug/socketlight_0000.png')
+    .add('plugSocketLightB', 'img/impy/nightplug/socketlight_0001.png')
     .add('plugBgA', 'img/impy/nightplug/bg_0000.png')
     .add('plugBgB', 'img/impy/nightplug/bg_0001.png')
     .add('plugDarknessA', 'img/impy/nightplug/darkness_0000.png')
@@ -402,14 +407,14 @@ function init (loader, resources) {
 
   // app.stage.addChild(plant_boy);
 
-  const zero = new DoodleSprite({
-    app,
-    texture: [zeroA.texture, zeroB.texture],
-    timeMod: 1,
-    swapMS: 500,
-  });
+  // const zero = new DoodleSprite({
+  //   app,
+  //   texture: [zeroA.texture, zeroB.texture],
+  //   timeMod: 1,
+  //   swapMS: 500,
+  // });
 
-  app.stage.addChild(zero);
+  // app.stage.addChild(zero);
   
 
   // IF YOU DELETE THIS COMMENT I WILL FUCKING END YOU BORA >:C
@@ -438,15 +443,15 @@ function init (loader, resources) {
   // console.log(newMG.didWin)
 
   // Rename init and update once making a new instance of the minigame 
-  const { init, update } = GetGoatScareFuncs(); 
-  const GoatScare = new MiniGame({
+  const { init, update } = GetNightPlugFuncs(); 
+  const NightPlug = new MiniGame({
     app,
     init,
     update,
   });
 
-  app.stage.addChild(GoatScare);
+  app.stage.addChild(NightPlug);
 
-  const HUD = new GameHUD({ app });
-  app.stage.addChild(HUD);
+  // const HUD = new GameHUD({ app });
+  // app.stage.addChild(HUD);
 };
