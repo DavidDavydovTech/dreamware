@@ -179,6 +179,8 @@ app.loader
     .add('typeWinB', 'img/clingy/typing/win_0001.png')
     .add('typeKeyboardA', 'img/clingy/typing/keyboard_0000.png')
     .add('typeKeyboardB', 'img/clingy/typing/keyboard_0001.png')
+    .add('typeTextA', 'img/clingy/typing/text_0000.png')
+    .add('typeTextB', 'img/clingy/typing/text_0001.png')
     // Hotdog
     .add('hdAngerFaceA', 'img/clingy/hotdog/anger_0000.png')
     .add('hdAngerFaceB', 'img/clingy/hotdog/anger_0001.png')
@@ -457,16 +459,16 @@ function init (loader, resources) {
   // console.log(newMG.didWin)
 
   // Rename init and update once making a new instance of the minigame 
-  const { init, update } = GetIceSkateFuncs(); 
-  const IceSkate = new MiniGame({
+  const { init, update } = GetPingPongFuncs(); 
+  const PingPong = new MiniGame({
     app,
     init,
     update,
-    difficulty: 3,
+    difficulty: 1,
     maxMS: 60000,
   });
 
-  app.stage.addChild(IceSkate);
+  app.stage.addChild(PingPong);
   // console.log(data)
   // const HUD = new GameHUD({ app });
   // app.stage.addChild(HUD);

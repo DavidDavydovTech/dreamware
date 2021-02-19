@@ -26,7 +26,9 @@ export const GetTypingTestFuncs = () => {
   'typeWinA',
   'typeWinB',
   'typeKeyboardA',
-  'typeKeyboardB'
+  'typeKeyboardB',
+  'typeTextA',
+  'typeTextB'
   ];
   const textures = {};
   const populateTextures = (resources) => {
@@ -74,8 +76,11 @@ export const GetTypingTestFuncs = () => {
     // typeKeyboard
     sprites.typeKeyboard.x = 40;
     sprites.typeKeyboard.y = 200; 
-    //sprites.plugBg.pivot.set( sprites.plugBg.width / 2, sprites.plugBg.height );
     this.addChild(sprites.typeKeyboard);
+    // typeText
+    sprites.typeText.x = 200;
+    sprites.typeText.y = 60; 
+    this.addChild(sprites.typeText);
     // typeClickmark (hidden)
     sprites.typeClickmark.alpha = 0;
     sprites.typeClickmark.x = 100;
