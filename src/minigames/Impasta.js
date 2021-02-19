@@ -104,7 +104,6 @@ export const GetImpastaFuncs = () => {
   };
 
   let didEnd = false;
-  let didWin = false;
 
   function update () {;
     const { snailPoint } = sprites;

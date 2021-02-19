@@ -460,16 +460,16 @@ function init (loader, resources) {
   // console.log(newMG.didWin)
 
   // Rename init and update once making a new instance of the minigame 
-  const { init, update } = GetImpastaFuncs(); 
-  const Impasta = new MiniGame({
+  const { init, update } = GetPingPongFuncs(); 
+  const PingPong = new MiniGame({
     app,
     init,
     update,
     difficulty: 1,
-    maxMS: 10000,
+    maxMS: 50000,
   });
 
-  app.stage.addChild(Impasta);
+  app.stage.addChild(PingPong);
   // console.log(data)
   // const HUD = new GameHUD({ app });
   // app.stage.addChild(HUD);
