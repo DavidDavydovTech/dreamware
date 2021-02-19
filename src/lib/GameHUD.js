@@ -23,7 +23,7 @@ class GameHUD extends Container {
     timeModMeterMax = 3,
     lives = 4,
     livesMax = 4,
-    character = 'impy'
+    character = 'clingy'
   }) {
     super();
 
