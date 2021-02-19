@@ -25,6 +25,14 @@ export const GetFlashlightFuncs = () => {
   'flashImpyWinB',
   'flashMeterA',
   'flashMeterB',
+  'flashMeterBumpA',
+  'flashMeterBumpB',
+  'flashMeterLineA',
+  'flashMeterLineB',
+  'flashMeterMaskA',
+  'flashMeterMaskB',
+  'flashMeterShadeA',
+  'flashMeterShadeB',
   'flashMonsterA',
   'flashMonsterB',
   'flashMonsterC',
@@ -99,7 +107,7 @@ export const GetFlashlightFuncs = () => {
     // sprites.flashFinger.x = 50;
     // sprites.flashFinger.y = 200;
     // this.addChild(sprites.flashFinger);
-    // flashFloatyMan
+    // flashFloatyMan (hidden)
     // sprites.flashFloatyMan.x = 200;
     // sprites.flashFloatyMan.y = 0;
     // this.addChild(sprites.flashFloatyMan);
@@ -111,11 +119,11 @@ export const GetFlashlightFuncs = () => {
     // sprites.flashImpyDark2.x = 20;
     // sprites.flashImpyDark2.y = 380;
     // this.addChild(sprites.flashImpyDark2);
-    // flashImpyLoss
+    // flashImpyLoss (hidden)
     // sprites.flashImpyLoss.x = 20;
     // sprites.flashImpyLoss.y = 380;
     // this.addChild(sprites.flashImpyLoss)
-    // flashImpyWin
+    // flashImpyWin (hidden)
     // sprites.flashImpyWin.x = 20;
     // sprites.flashImpyWin.y = 380;
     // this.addChild(sprites.flashImpyWin);
@@ -123,6 +131,14 @@ export const GetFlashlightFuncs = () => {
     sprites.flashMeter.x = 120;
     sprites.flashMeter.y = 100;
     this.addChild(sprites.flashMeter);
+    // flashMeterBump
+
+    // flashMeterLine
+
+    // flashMeterMask
+
+    // flashMeterShade
+
     // flashMonster (not set up properly)
     // sprites.flashMonster.textureOffset = [{x : 0, y : 0}, {x : -10, y : 0}, {x : 0, y : -5}, {x : -30, y : 0}, {x : -160, y : 0}, {x : -170, y : 0}];
     // sprites.flashMonster.textureOffsetActive = true;
@@ -133,7 +149,7 @@ export const GetFlashlightFuncs = () => {
     sprites.flashMouse.x = 0;
     sprites.flashMouse.y = 0;
     this.addChild(sprites.flashMouse)
-    // flashW2
+    // flashW2 (hidden)
     sprites.flashW2.x = 270;
     sprites.flashW2.y = 50;
     this.addChild(sprites.flashW2)

@@ -16,7 +16,11 @@ import GetHotdogFuncs from './minigames/Hotdog';
 import GetPingPongFuncs from './minigames/PingPong';
 import GetIceSkateFuncs from './minigames/IceSkate';
 import GetImpastaFuncs from './minigames/Impasta';
+<<<<<<< HEAD
 import GameController from './lib/GameController';
+=======
+import GetFlowersFuncs from './minigames/Flowers';
+>>>>>>> 1f31f1c2ef5adcf2eb1deabd8e24b82d8f567d28
 
 const sound = PixiSound.default.sound;
 
@@ -241,6 +245,14 @@ app.loader
     .add('flashImpyWinB', 'img/impy/flashlight/impywin_0001.png')
     .add('flashMeterA', 'img/impy/flashlight/meter_0000.png')
     .add('flashMeterB', 'img/impy/flashlight/meter_0001.png')
+    .add('flashMeterMaskA', 'img/impy/flashlight/metermask_0000.png')
+    .add('flashMeterMaskB', 'img/impy/flashlight/metermask_0001.png')
+    .add('flashMeterShadeA', 'img/impy/flashlight/metershade_0000.png')
+    .add('flashMeterShadeB', 'img/impy/flashlight/metershade_0001.png')
+    .add('flashMeterBumpA', 'img/impy/flashlight/meterbump_0000.png')
+    .add('flashMeterBumpB', 'img/impy/flashlight/meterbump_0001.png')
+    .add('flashMeterLineA', 'img/impy/flashlight/meterline_0000.png')
+    .add('flashMeterLineB', 'img/impy/flashlight/meterline_0001.png')
     .add('flashMonsterA', 'img/impy/flashlight/monster_0000.png')
     .add('flashMonsterB', 'img/impy/flashlight/monster_0001.png')
     .add('flashMonsterC', 'img/impy/flashlight/monster_0002.png')
@@ -356,7 +368,7 @@ app.loader
     .add('goatSpookA', 'img/miro/goatscare/GOAT_SPOOK_A.png')
     .add('goatSpookB', 'img/miro/goatscare/GOAT_SPOOK_B.png')
     // Flowers
-    .add('flowerBasketA', 'img/miro/flowers/baskets_0000.png')
+    .add('flowerBasketsA', 'img/miro/flowers/baskets_0000.png')
     // .add('flowerBasketB', 'img/miro/flowers/baskets_0001.png')
     .add('flowerSoftFlowerA', 'img/miro/flowers/softflower_0000.png')
     .add('flowerSoftFlowerB', 'img/miro/flowers/softflower_0001.png')

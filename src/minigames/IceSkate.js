@@ -222,10 +222,10 @@ export const GetIceSkateFuncs = () => {
         sprites.icePlayer.alpha = 0;
         sprites.iceLoss.alpha = 1;
       }
-      console.log('LOST :(')
+      //console.log('LOST :(')
       didEnd = true;
     } else if ( score >= positions.length + 2) {
-      console.log('WON')
+      //console.log('WON')
       if (!didEnd) {
         sprites.iceBg.alpha = 0;
         sprites.iceScreen.alpha = 0;
