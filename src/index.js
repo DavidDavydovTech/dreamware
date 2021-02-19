@@ -16,6 +16,7 @@ import GetHotdogFuncs from './minigames/Hotdog';
 import GetPingPongFuncs from './minigames/PingPong';
 import GetIceSkateFuncs from './minigames/IceSkate';
 import GetImpastaFuncs from './minigames/Impasta';
+import GetFlowersFuncs from './minigames/Flowers';
 
 const sound = PixiSound.default.sound;
 
@@ -355,7 +356,7 @@ app.loader
     .add('goatSpookA', 'img/miro/goatscare/GOAT_SPOOK_A.png')
     .add('goatSpookB', 'img/miro/goatscare/GOAT_SPOOK_B.png')
     // Flowers
-    .add('flowerBasketA', 'img/miro/flowers/baskets_0000.png')
+    .add('flowerBasketsA', 'img/miro/flowers/baskets_0000.png')
     // .add('flowerBasketB', 'img/miro/flowers/baskets_0001.png')
     .add('flowerSoftFlowerA', 'img/miro/flowers/softflower_0000.png')
     .add('flowerSoftFlowerB', 'img/miro/flowers/softflower_0001.png')
@@ -460,8 +461,8 @@ function init (loader, resources) {
   // console.log(newMG.didWin)
 
   // Rename init and update once making a new instance of the minigame 
-  const { init, update } = GetIceSkateFuncs(); 
-  const IceSkate = new MiniGame({
+  const { init, update } = GetFlowersFuncs(); 
+  const Flowers = new MiniGame({
     app,
     init,
     update,
@@ -469,7 +470,7 @@ function init (loader, resources) {
     maxMS: 50000,
   });
 
-  app.stage.addChild(IceSkate);
+  app.stage.addChild(Flowers);
   // console.log(data)
   // const HUD = new GameHUD({ app });
   // app.stage.addChild(HUD);
