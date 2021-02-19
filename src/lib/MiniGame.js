@@ -1,7 +1,8 @@
 import { Container } from 'pixi.js';
+import * as PixiSound from 'pixi-sound';
+const sound = PixiSound.default.sound;
 // import * as PixiSound from 'pixi-sound';
 // import Keyboard from './keyboard';
-// const sound = PixiSound.default.sound;
 
 class MiniGame extends Container {
     /**
@@ -76,6 +77,7 @@ class MiniGame extends Container {
     this.tickMG(this);
   }
 
+  
   // Do not touch these. These are placeholders for Intelisense
   failMG = () => { console.error('The failMG method WAS NOT UPDATED; MINIGAME CAN NOT BE FAILED!'); }
   winMG = () => { console.error('The winMG method WAS NOT UPDATED; MINIGAME CAN NOT BE WON!'); }
