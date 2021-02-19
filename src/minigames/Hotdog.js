@@ -122,6 +122,37 @@ export const GetHotdogFuncs = () => {
     this.addChild(sprites.hdAngerFace);
   };
 
+  // class Order extends Container{
+  //   constructor (sprite) {
+  //     super()
+  //     this.yOriginal = 0;
+  //     this.ySeed = Math.floor( Math.random() * 30 + 20);
+  //     this.directionX = 1;
+  //     this.directionY = 1;
+  //     this.speedX = Math.floor( Math.random() * 1000 + 1150) + 2;
+  //     this.speedY = Math.floor( Math.random() * 250 + 750) + 2;
+  //     this.addChild(sprite);
+  //     ghosts.push(this);
+  //     this._init();
+  //   }
+  //   _init = () => {
+  //     this.interactive = true;
+  //     this.y = Math.floor( Math.random() * ( 800 - this.height ) );
+  //     this.yOriginal = this.y;
+  //     this.x = Math.floor( Math.random() * ( 800 + this.width * 2) - this.width );
+  //   }
+  //   update = (deltaMS) => {
+  //     const ghostDeltaY = (deltaMS / this.speedY) * 100;
+  //     const ghostDeltaX = (deltaMS / this.speedX) * 800;
+  //     this.y += this.directionY * ghostDeltaY;
+  //     this.x += this.directionX * ghostDeltaX;
+  //     if (this.x > 800 + this.width) { this.directionX = -1; }
+  //     else if (this.x < -this.width) { this.directionX = 1; }
+  //     if (this.y > this.yOriginal + this.ySeed) { this.directionY = -1; }
+  //     else if (this.y < this.yOriginal - this.ySeed) { this.directionY = 1; }
+  //   }
+  // }
+
   function update () {;
      const { hdHand } = sprites;
      sprites.hdHand.x = hdHand.x + ( mousePosition.x - hdHand.x );

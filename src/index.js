@@ -459,13 +459,13 @@ function init (loader, resources) {
   // console.log(newMG.didWin)
 
   // Rename init and update once making a new instance of the minigame 
-  const { init, update } = GetPingPongFuncs(); 
+  const { init, update } = GetGhostShooterFuncs(); 
   const PingPong = new MiniGame({
     app,
     init,
     update,
-    difficulty: 1,
-    maxMS: 60000,
+    difficulty: 3,
+    maxMS: 10000,
   });
 
   app.stage.addChild(PingPong);
