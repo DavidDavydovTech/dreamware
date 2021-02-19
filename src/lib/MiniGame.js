@@ -13,7 +13,7 @@ class MiniGame extends Container {
    * @param {function} props.update - The function to use when updating the minigame every frame.
    * @param {number} props.init - The function to run when initalizing the game.
    * @param {number} props.maxMS - The maximum amount of time allowed to finish the minigame.
-   * @param {number} props.difficuly - A arbitrary way of delegating the minigame's difficulty.
+   * @param {number} props.difficulty - A arbitrary way of delegating the minigame's difficulty.
   */
   constructor({ 
     app,
@@ -23,7 +23,7 @@ class MiniGame extends Container {
       console.warn('No init provided to MiniGame') 
     },
     maxMS = 5000,
-    difficuly = 1,
+    difficulty = 1,
   },) {
     super();
 
@@ -52,7 +52,7 @@ class MiniGame extends Container {
     };
     this.init = init;
 
-    this.difficuly = difficuly;
+    this.difficulty = difficulty;
 
     this.timeMod = timeMod;
     this.maxMS = maxMS;
