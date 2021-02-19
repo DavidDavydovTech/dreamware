@@ -364,6 +364,8 @@ app.loader
     .add('goatSneakB', 'img/miro/goatscare/GOAT_SNEAK_B.png')
     .add('goatSpookA', 'img/miro/goatscare/GOAT_SPOOK_A.png')
     .add('goatSpookB', 'img/miro/goatscare/GOAT_SPOOK_B.png')
+    .add('goatSpinA', 'img/miro/goatscare/SPIN_A.png')
+    .add('goatSpinB', 'img/miro/goatscare/SPIN_B.png')
     // Flowers
     .add('flowerBasketsA', 'img/miro/flowers/baskets_0000.png')
     // .add('flowerBasketB', 'img/miro/flowers/baskets_0001.png')
@@ -488,8 +490,8 @@ function init (loader, resources) {
   // console.log(newMG.didWin)
 
   // Rename init and update once making a new instance of the minigame 
-  // const { init, update } = GetPingPongFuncs(); 
-  // const Impasta = new MiniGame({
+  // const { init, update } = GetGoatScareFuncs(); 
+  // const GoatScare = new MiniGame({
   //   app,
   //   init,
   //   update,
@@ -497,7 +499,7 @@ function init (loader, resources) {
   //   maxMS: 10000,
   // });
 
-  // app.stage.addChild(Impasta);
+  // app.stage.addChild(GoatScare);
   // console.log(data)
   const HUD = new GameController({ app, MGArray: [], MGBoss: {} });
   app.stage.addChild(HUD);

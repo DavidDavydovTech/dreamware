@@ -17,6 +17,8 @@ export const GetGoatScareFuncs = () => {
     'goatSneakB',
     'goatSpookA',
     'goatSpookB',
+    'goatSpinA',
+    'goatSpinB'
   ];
   const textures = {};
   const populateTextures = (resources) => {
@@ -96,6 +98,10 @@ export const GetGoatScareFuncs = () => {
     sprites.goatBush.textureOffset = [{x:0,y:6}, {x:0,y:0}];
     sprites.goatBush.textureOffsetActive = true;
     this.addChild(sprites.goatBush);
+    // goatSpin
+    sprites.goatSpin.x = (800 / 2) - (sprites.goatSpin.width / 2);
+    sprites.goatSpin.y = 100;
+    this.addChild(sprites.goatSpin);
     // Person Sneak 
     sprites.goatSneak.x = 95 + sprites.goatSneak.width / 2;
     sprites.goatSneak.y = 395 + sprites.goatSneak.height;
