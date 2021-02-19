@@ -55,8 +55,10 @@ export const GetPingPongFuncs = () => {
 
   // Extras
   let ballDirectionFlip = false;
+  let didWin;
 
-  function init () {    
+  function init () {
+    this.winOnTimeout = true;
     // Get the properties we need:
     const { _appReference, timeMod } = this;
     // MUST RUN or textures don't come through.
@@ -65,7 +67,7 @@ export const GetPingPongFuncs = () => {
     populateMousePosition( _appReference );
 
     // Sprites
-    
+    this.didWin.then( won => { didWin = won; });
     // pingHitEffect (Dynamic) (Hidden)
     sprites.pingHitEffect.alpha = 0;
     sprites.pingHitEffect.x = 50;
@@ -105,27 +107,35 @@ export const GetPingPongFuncs = () => {
   };
   
   let didEnd = false;
+  let pingPongMS = 1000;
+  let pingPongXTarget = 100;
+  let pingPingXLast = 100;
+
 
   function update () {;
-    const { pingPaddle } = sprites;
+    const { pingPaddle, pingEnPaddle, pingBall } = sprites;
     const { deltaMS } = this;
+    let pingPongDelta = deltaMS / pingPongMS
 
     pingPaddle.x = pingPaddle.x + ( mousePosition.x - pingPaddle.x ) - 90;
     // prevent pingPaddle.y from going above 500Y or a certain Y point
     //pingPaddle.y = pingPaddle.y + ( mousePosition.y - pingPaddle.y ) - 100;
 
+    pingEnPaddle.x += ( pingBall.x - pingEnPaddle.x ) / ( 1000 / ( this.totalMS / ( this.difficulty )) + 1);
 
     // Game starts with enemy paddle hitting ball to player
       // eventually make enemy mess up easily
     // Ball bounce handling
     if (ballDirectionFlip === false) { // enemy turn
-      sprites.pingBall.y += 5;
+      sprites.pingBall.y += 600 * pingPongDelta;
       // first uses default x then start reflecting other x
     } 
     else { // player turn
-      sprites.pingBall.y -= 5;
+      sprites.pingBall.y -= 600 * pingPongDelta;
       // reflect x
     }
+    
+    sprites.pingBall.x += (pingPongXTarget - pingPingXLast) * pingPongDelta;
     // Collision checking
     // make the ball bounce to the opposite end and somewhat shift angle
     // Player collision
@@ -134,7 +144,8 @@ export const GetPingPongFuncs = () => {
       sprites.pingBall.y < sprites.pingPaddle.y + (sprites.pingPaddle.height - 40) &&
       sprites.pingBall.y + (sprites.pingBall.height - 40) > sprites.pingPaddle.y) {
     // Play hit effect and do some DeltaMS wait thing
-    ballDirectionFlip = true;
+      
+      ballDirectionFlip = true;
     }
     // Enemy collision
     if (sprites.pingBall.x < sprites.pingEnPaddle.x + sprites.pingEnPaddle.width &&
@@ -142,10 +153,20 @@ export const GetPingPongFuncs = () => {
       sprites.pingBall.y < sprites.pingEnPaddle.y + (sprites.pingEnPaddle.height - 65) &&
       sprites.pingBall.y + (sprites.pingBall.height - 65) > sprites.pingEnPaddle.y) {
     // Play enemy hit effect and do some DeltaMS wait thing
+    pingPingXLast = sprites.pingBall.x;
+    pingPongXTarget = Math.floor( Math.random() * 400 + 200 );
+
     ballDirectionFlip = false;
     }
     // Loss if ball > 790Y Win if ball is < 5Y
-    if ( this.totalMS >= this.maxMS - 100 || sprites.pingBall.y > 790) {
+    if (sprites.pingBall.y > 790) {
+      this.failMG();
+    } else if ( sprites.pingBall.y < 5 ) {
+      this.winMG();
+    }
+
+    if ( didWin === false ) {
+      console.log('WON')
       if ( didEnd === false ) { 
         this.maxMS = this.maxMS + 2000
         //console.log('lost!')
@@ -156,7 +177,8 @@ export const GetPingPongFuncs = () => {
         sprites.pingLoss.alpha = 1;
         didEnd = true;
       }
-    } else if (this.didWin === true || sprites.pingBall.y < 5) {
+    } else if ( didWin === true || sprites.pingBall.y < 5) {
+      console.log('WON')
       if ( didEnd === false ) {
         didEnd = true;
         this.winOnTimeout = true;

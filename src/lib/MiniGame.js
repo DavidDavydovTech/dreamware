@@ -54,15 +54,19 @@ class MiniGame extends Container {
     this.init = init;
 
     this.winOnTimeout = winOnTimeout;
+    this.timeoutDelayMS = 1000;
     this.difficulty = difficulty;
+
 
     this.timeMod = timeMod;
     this.maxMS = maxMS;
     this.deltaMS = 0;
     this.totalMS = 0;
-
+    
+    this._didWinPromse;
     this.didWin = new Promise( (resolve, reject) => {
       // These are the actual declarations of winMG and failMG
+      this._didWinResolver = resolve;
       this.failMG = () => { resolve(false); };
       this.winMG = () => { resolve(true); };
     });
@@ -85,19 +89,25 @@ class MiniGame extends Container {
   winMG = () => { console.error('The winMG method WAS NOT UPDATED; MINIGAME CAN NOT BE WON!'); }
 
   tickMG = () => {
+    this.deltaMS = this._tickerReference.elapsedMS * this.timeMod;
+    this.totalMS += this.deltaMS;
     if ( this.maxMS < this.totalMS && this.maxMS !== 0 ) {
       const didWin = this.didWin;
-      if ( typeof didWin !== 'boolean' ) {
+      
+      if ( typeof didWin !== 'boolean') {
         if ( !this.winOnTimeout ) {
           this.failMG();
         } else {
           this.winMG();
         }
+      } 
+      
+      if (this.timeoutDelayMS <= 0) {
+        return;
+      }else {
+        this.timeoutDelayMS -= this.deltaMS;
       }
-      return;
     }
-    this.deltaMS = this._tickerReference.elapsedMS * this.timeMod;
-    this.totalMS += this.deltaMS;
     this.renderMG.call(this);
   }
 
