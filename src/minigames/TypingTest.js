@@ -1,4 +1,5 @@
 import DoodleSprite from '../lib/DoodleSprite';
+import { Container } from 'pixi.js';
 
 export const GetTypingTestFuncs = () => {
   // Load textures in the array
@@ -72,7 +73,103 @@ export const GetTypingTestFuncs = () => {
     populateMousePosition( _appReference );
 
     // Sprites
-    
+    // class TypeChallenge extends Container {
+    //   constructor(sentenceNumber) {
+    //     super();
+    //     this.sentence = [];
+    //     this.index = 0;
+    //     let canWhitespace = true;
+    //     let sentenceSpacing = 0;
+    //     for (let i = 0; i < sentenceNumber; i++) {
+    //       let isWhitespace = -1;
+    //       if (canWhitespace) isWhitespace = Math.floor( Math.random() * sentenceNumber);
+    //       if (isWhitespace = 1) {
+    //         sentenceSpacing += 35;
+    //         continue;
+    //       } else {
+    //         let texture = [];
+    //         const nextVal = Math.floor(Math.random() * 8);
+    //         switch( nextVal ) {
+    //           case 0: {
+    //             texture = sprites.typeArrow.texturesArray;
+    //             break;
+    //           }
+    //           case 1: {
+    //             texture = sprites.typeQuestion.texturesArray;
+    //             break;
+    //           }
+    //           case 2: {
+    //             texture = sprites.typeTriangle.texturesArray;
+    //             break;
+    //           }
+    //           case 3: {
+    //             texture = sprites.typeTriangleDown.texturesArray;
+    //             break;
+    //           }
+    //           case 4: {
+    //             texture = sprites.typeTriangleUp.texturesArray;
+    //             break;
+    //           }
+    //           case 5: {
+    //             texture = sprites.typeSmile.texturesArray;
+    //             break;
+    //           }
+    //           case 6: {
+    //             texture = sprites.typeHill.texturesArray;
+    //             break;
+    //           }
+    //         }
+    //         const newSymbol = new DoodleSprite({
+    //           texture,
+    //           app,
+    //           timeMod,
+    //         });
+    //         newSymbol.x = sentenceSpacing + 10;
+    //         sentenceSpacing += 10 + newSymbol.width;
+    //         newSymbol.switchValue = nextVal;
+    //         this.addChild(newSymbol);
+    //       }
+    //     }
+    //     this.didFail = false;
+    //     this._blinkMS = 600;
+    //     this.blinkMS = 600;
+    //     this.isVisable = 1;
+    //   }
+
+    //   update = (deltaMS) => {
+    //     let currentChar = this.sentence[this.index];
+    //     if (this.index < this.sentence.length) {
+    //       currentChar.alpha = this.isVisable;
+    //       this.blinkMS -= deltaMS;
+    //       if (this.blinkMS <= 0) {
+    //         this.blinkMS = this._blinkMS;
+    //         this.isVisable = this.isVisable === 1 ? 0 : 1;
+    //       }
+    //     }
+    //   }
+
+    //   submitLetter = (number) => {
+    //     let currentChar = this.sentence[this.index];
+    //     if (currentChar.switchValue !== number) {
+    //       this.failMG();
+    //     } else {
+    //       this.index++
+    //       currentChar.alpha = 1;
+    //       this.isVisable = true;
+    //       this.blinkMS = this._blinkMS;
+    //     }
+
+    //     if (this.index >= this.sentence.length) {
+    //       this.winMG();
+    //     }
+    //   }
+    // }
+
+    // const spellingGame = new TypeChallenge( 3 );
+    // this.addChild(spellingGame);
+    // spellingGame.x = 300
+    // spellingGame.y = 300
+
     // typeKeyboard
     sprites.typeKeyboard.x = 40;
     sprites.typeKeyboard.y = 200; 
