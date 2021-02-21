@@ -1,6 +1,7 @@
-import { Application, AnimatedSprite, Texture, Loader } from "pixi.js";
+import { Application, AnimatedSprite, Texture, Loader } from 'pixi.js';
+import WorldMap from './lib/core/WorldMap';
 
-import "./style.css";
+import './style.css';
 
 const gameWidth = 800;
 const gameHeight = 800;
@@ -25,12 +26,15 @@ window.onload = async (): Promise<void> => {
     birdFromSprite.position.set(400, 400);
 
     stage.addChild(birdFromSprite);
+
+    const mainMenu = new WorldMap();
+    stage.addChild(mainMenu);
 };
 
 async function loadGameAssets(): Promise<void> {
     return new Promise((res, rej) => {
         const loader = Loader.shared;
-        loader.add("rabbit", "./assets/simpleSpriteSheet.json");
+        loader.add('rabbit', './assets/simpleSpriteSheet.json');
 
         loader.onComplete.once(() => {
             res();
@@ -64,14 +68,14 @@ function resizeCanvas(): void {
 
     resize();
 
-    window.addEventListener("resize", resize);
+    window.addEventListener('resize', resize);
 }
 
 function getBird(): AnimatedSprite {
     const bird = new AnimatedSprite([
-        Texture.from("birdUp.png"),
-        Texture.from("birdMiddle.png"),
-        Texture.from("birdDown.png"),
+        Texture.from('birdUp.png'),
+        Texture.from('birdMiddle.png'),
+        Texture.from('birdDown.png'),
     ]);
 
     bird.loop = true;
