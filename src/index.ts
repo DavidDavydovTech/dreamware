@@ -45,20 +45,21 @@ async function loadGameAssets(): Promise<void> {
 }
 
 function resizeCanvas(): void {
+    const gameRatio = gameWidth / gameHeight;
     const resize = () => {
-        let w, h;
-        if (window.innerWidth >= window.innerHeight) {
-            w = window.innerHeight || gameWidth;
+        let w, h, scale;
+        const windowRatio = window.innerWidth / window.innerHeight;
+        if (windowRatio >= gameRatio) {
             h = window.innerHeight || gameHeight;
+            scale = h / gameHeight;
+            w = gameWidth * scale;
         } else {
             w = window.innerWidth || gameWidth;
-            h = window.innerWidth || gameHeight;
+            scale = w / gameWidth;
+            h = gameHeight * scale;
         }
         app.renderer.resize(w, h);
-
-        const xScale = w / gameWidth;
-        const yScale = h / gameHeight;
-        app.stage.scale.set(xScale, yScale);
+        app.stage.scale.set(scale, scale);
     };
 
     resize();
