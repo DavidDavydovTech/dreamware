@@ -1,10 +1,11 @@
-import { Application, AnimatedSprite, Texture, Loader } from 'pixi.js';
+import { Application, AnimatedSprite, Texture, Loader, settings, SCALE_MODES } from 'pixi.js';
 import WorldMap from './lib/core/WorldMap';
 
 import './style.css';
 
 const gameWidth = 800;
 const gameHeight = 800;
+settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
 const app = new Application({
     backgroundColor: 0xd3d3d3,
@@ -79,7 +80,7 @@ function getBird(): AnimatedSprite {
     ]);
 
     bird.loop = true;
-    bird.animationSpeed = 0.1;
+    bird.animationSpeed = 0.5;
     bird.play();
     bird.scale.set(3);
 
