@@ -36,10 +36,7 @@ export class WorldMap extends Container {
      * @returns {undefined}
      */
     private init = async () => {
-        console.log('Start');
-        const didLoad = await this.loadAssets();
-        console.log('did load?', didLoad);
-        console.log('LOADER:', this.loader);
+        await this.loadAssets();
     };
 
     /**
