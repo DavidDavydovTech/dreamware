@@ -40,12 +40,7 @@ export class WorldMap extends Container {
         console.log(sharedLoader);
     };
 
-    /**
-     * @method loadAssets
-     * @private
-     * @description Queues the loader to load all essential textures and audio.
-     * @returns {Promise} Promise resolves when all assets are loaded.
-     */
+    /** @type {import('./factory/assetLoader').loadAssets} */
     private loadAssets = loadAssets;
 }
 

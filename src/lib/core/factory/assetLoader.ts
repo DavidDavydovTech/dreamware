@@ -1,7 +1,14 @@
 import { Loader } from 'pixi.js';
 
+/** @type {import('pixi.js').Loader} */
 export const sharedLoader = Loader.shared;
 
+/**
+ * @method loadAssets
+ * @private
+ * @description Queues the loader to load all essential textures and audio.
+ * @returns {Promise} Promise resolves when all assets are loaded.
+ */
 export const loadAssets = async (resourceArray: string[]): Promise<true> => {
     resourceArray.forEach((url) => loadAsset(url));
     return new Promise((resolve, reject) => {
@@ -16,6 +23,13 @@ export const loadAssets = async (resourceArray: string[]): Promise<true> => {
     });
 };
 
+/**
+ * @method loadAsset
+ * @private
+ * @description Queues a single resource to be loaded by the loader.
+ * @param {string} url The path to the asset from the root of the assets folder (ex: `<root>/assets/img/image.png` becomes `img/image.png`).
+ * @returns {undefined} Promise resolves when all assets are loaded.
+ */
 export const loadAsset = (url: string): void => {
     try {
         const name = url.match(/(?<=\/)[^\/]{0,}(?=\.png$)/);
