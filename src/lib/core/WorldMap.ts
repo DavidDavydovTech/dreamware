@@ -1,5 +1,7 @@
 import { Container, Sprite } from 'pixi.js';
 import { loadAssets, sharedLoader } from './factory/assetLoader';
+import DoodleSprite from './DoodleSprite';
+
 const resourceArray = [
     'assets/img/world_map/bg1.png',
     'assets/img/world_map/bg2.png',
@@ -36,7 +38,7 @@ export class WorldMap extends Container {
      */
     private init = async () => {
         await this.loadAssets(resourceArray);
-        this.addChild(new Sprite(sharedLoader.resources.bg1.texture));
+        this.addChild(new DoodleSprite([sharedLoader.resources.bg1.texture, sharedLoader.resources.bg2.texture]));
         console.log(sharedLoader);
     };
 
