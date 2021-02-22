@@ -1,4 +1,4 @@
-import { Container, Sprite } from 'pixi.js';
+import { Container } from 'pixi.js';
 import { loadAssets, sharedLoader } from './factory/assetLoader';
 import DoodleSprite from './DoodleSprite';
 
@@ -38,8 +38,14 @@ export class WorldMap extends Container {
      */
     private init = async () => {
         await this.loadAssets(resourceArray);
-        this.addChild(new DoodleSprite([sharedLoader.resources.bg1.texture, sharedLoader.resources.bg2.texture]));
-        console.log(sharedLoader);
+        this.initGraphics();
+    };
+
+    private initGraphics = (): void => {
+        // const { } = sharedLoader;
+
+        const bg = new DoodleSprite([sharedLoader.resources.bg1.texture, sharedLoader.resources.bg2.texture]);
+        this.addChild(bg);
     };
 
     /** @type {import('./factory/assetLoader').loadAssets} */
