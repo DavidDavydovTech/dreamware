@@ -1,4 +1,4 @@
-import { Application, AnimatedSprite, Texture, Loader, settings, SCALE_MODES } from 'pixi.js';
+import { Application, Sprite, Texture, Loader, settings, SCALE_MODES } from 'pixi.js';
 import WorldMap from './lib/core/WorldMap';
 
 import './style.css';
@@ -8,7 +8,7 @@ const gameHeight = 800;
 settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
 const app = new Application({
-    backgroundColor: 0xd3d3d3,
+    backgroundColor: 0xffffff, // 0xd3d3d3
     width: gameWidth,
     height: gameHeight,
 });
@@ -21,12 +21,6 @@ window.onload = async (): Promise<void> => {
     document.body.appendChild(app.view);
 
     resizeCanvas();
-
-    const birdFromSprite = getBird();
-    birdFromSprite.anchor.set(0.5, 0.5);
-    birdFromSprite.position.set(400, 400);
-
-    stage.addChild(birdFromSprite);
 
     const mainMenu = new WorldMap();
     stage.addChild(mainMenu);
@@ -70,19 +64,4 @@ function resizeCanvas(): void {
     resize();
 
     window.addEventListener('resize', resize);
-}
-
-function getBird(): AnimatedSprite {
-    const bird = new AnimatedSprite([
-        Texture.from('birdUp.png'),
-        Texture.from('birdMiddle.png'),
-        Texture.from('birdDown.png'),
-    ]);
-
-    bird.loop = true;
-    bird.animationSpeed = 0.5;
-    bird.play();
-    bird.scale.set(3);
-
-    return bird;
 }
