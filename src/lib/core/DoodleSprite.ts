@@ -41,7 +41,7 @@ class DoodleSprite extends Sprite {
      */
     constructor(
         texture: Texture[],
-        { textureOffset, stopOnLastFrame, destroyOnLoop, swapMS }: DoodleSpriteOptions = {
+        { textureOffset, stopOnLastFrame = false, destroyOnLoop = false, swapMS = 500 }: DoodleSpriteOptions = {
             stopOnLastFrame: false,
             destroyOnLoop: false,
             swapMS: 500,
