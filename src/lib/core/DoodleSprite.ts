@@ -51,10 +51,10 @@ class DoodleSprite extends Sprite {
         // We need to keep a refrence to the original destroy method.
         this._destroy = this.destroy;
         // ...and replace it with a wrapper/thunk
-        // this.destroy = (options) => {
-        //     this._tickerReference.remove(this._ticker);
-        //     this._destroy(options);
-        // };
+        this.destroy = (options) => {
+            this.ticker.remove(this._tick);
+            this._destroy(options);
+        };
 
         this.trueX = 0;
         this.trueY = 0;
@@ -77,6 +77,7 @@ class DoodleSprite extends Sprite {
         this._init();
     }
 
+    /* tslint:disable-next-line */
     // @ts-ignore
     get y(): number {
         return this.trueY;
@@ -87,6 +88,7 @@ class DoodleSprite extends Sprite {
         this.position.y = this.trueY + this.offset.y;
     }
 
+    /* tslint:disable-next-line */
     // @ts-ignore
     get x(): number {
         return this.trueX;
@@ -134,6 +136,8 @@ class DoodleSprite extends Sprite {
                 this.x = this.x;
             }
         }
+
+        this.swapMS += this.ticker.deltaMS;
     };
 }
 
