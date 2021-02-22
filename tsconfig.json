@@ -5,8 +5,7 @@
         "strict": true,
         "sourceMap": true,
         "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "quotemark": "single"
+        "allowSyntheticDefaultImports": true
     },
     "include": ["./src/index.ts"]
 }
