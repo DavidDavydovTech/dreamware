@@ -66,7 +66,7 @@ class DoodleSprite extends Sprite {
         this.stopOnLastFrame = stopOnLastFrame;
 
         this.textureArray = texture;
-        this.textureOffset = textureOffset;
+        this.textureOffset = textureOffset || [{ x: 0, y: 0 }];
         this.textureOffsetActive = false;
         if (Array.isArray(textureOffset)) {
             this.textureOffsetActive = true;
@@ -77,6 +77,7 @@ class DoodleSprite extends Sprite {
         this._init();
     }
 
+    // @ts-ignore
     get y(): number {
         return this.trueY;
     }
@@ -86,6 +87,7 @@ class DoodleSprite extends Sprite {
         this.position.y = this.trueY + this.offset.y;
     }
 
+    // @ts-ignore
     get x(): number {
         return this.trueX;
     }
