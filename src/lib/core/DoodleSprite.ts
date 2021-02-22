@@ -10,9 +10,9 @@ type offset = {
 
 export interface DoodleSpriteOptions {
     textureOffset?: offset[] | undefined;
-    stopOnLastFrame: boolean;
-    destroyOnLoop: boolean;
-    swapMS: number;
+    stopOnLastFrame?: boolean;
+    destroyOnLoop?: boolean;
+    swapMS?: number;
 }
 
 /** @type {import('pixi.js').Sprite}
@@ -41,11 +41,7 @@ class DoodleSprite extends Sprite {
      */
     constructor(
         texture: Texture[],
-        { textureOffset, stopOnLastFrame = false, destroyOnLoop = false, swapMS = 500 }: DoodleSpriteOptions = {
-            stopOnLastFrame: false,
-            destroyOnLoop: false,
-            swapMS: 500,
-        }
+        { textureOffset, stopOnLastFrame = false, destroyOnLoop = false, swapMS = 500 }: DoodleSpriteOptions = {}
     ) {
         super(texture[0]);
         // We need to keep a refrence to the original destroy method.
