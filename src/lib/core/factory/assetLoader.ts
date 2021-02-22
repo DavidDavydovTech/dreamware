@@ -12,16 +12,16 @@ export const sharedLoader = Loader.shared;
  * @description Queues the loader to load all essential textures and audio.
  * @returns {Promise} Promise resolves when all assets are loaded.
  */
-export const loadAssets = async (resourceArray: string[]): Promise<true> => {
-    resourceArray.forEach((url) => loadAsset(url));
+export const loadAssets = async (resourceArray: string[]): Promise<string[]> => {
+    const resourceProperties: string[] = resourceArray.map((url) => loadAsset(url));
     return new Promise((resolve, reject) => {
         sharedLoader.onComplete.add(() => {
             console.log('End of Load');
-            resolve(true);
+            resolve(resourceProperties);
         });
         sharedLoader.onError.add((err) => {
             console.error('Loader error:', err);
-            reject(false);
+            reject(err);
         });
     });
 };
@@ -33,7 +33,7 @@ export const loadAssets = async (resourceArray: string[]): Promise<true> => {
  * @param {string} url The path to the asset from the root of the assets folder (ex: `<root>/assets/img/image.png` becomes `img/image.png`).
  * @returns {undefined} Promise resolves when all assets are loaded.
  */
-export const loadAsset = (url: string): void => {
+export const loadAsset = (url: string): string => {
     try {
         const name = url.match(/(?<=\/)[^\/]{0,}(?=\.png$)/);
         if (name === null) {
@@ -41,9 +41,11 @@ export const loadAsset = (url: string): void => {
         } else if (name.length > 1) {
             throw new Error(`Tried to get a resource at "${url}" but loadAssets parsed two file names instead of one.`);
         }
-        if (sharedLoader.resources.hasOwnProperty(name[0]) === false) {
-            sharedLoader.add(name[0], url);
+        const resourceName = name[0];
+        if (sharedLoader.resources.hasOwnProperty(resourceName) === false) {
+            sharedLoader.add(resourceName, url);
         }
+        return resourceName;
     } catch (err) {
         throw err;
     }
@@ -92,7 +94,7 @@ interface DoodleSpriteCollection {
  */
 export const populateSprites = (
     textureCollection: TextureCollection,
-    { defaultOptions, regex = /.{0,}(?=[0-9]{0,})/ }: PopulateSpritesOptions = {}
+    { defaultOptions, regex = /[^0-9]{0,}(?=[0-9]{0,})/ }: PopulateSpritesOptions = {}
 ): DoodleSpriteCollection => {
     const groups: { [prop: string]: Texture[] } = {};
     const result: DoodleSpriteCollection = {};
@@ -108,7 +110,7 @@ export const populateSprites = (
                 `Tried to get a group name from "${textureName}" but populateSprites parsed two or more group names instead of one. (double check your regular expression: "${regex}")`
             );
         }
-
+        console.log(groupName[0]);
         if (groups.hasOwnProperty(groupName[0]) === false) {
             groups[groupName[0]] = [];
         }
