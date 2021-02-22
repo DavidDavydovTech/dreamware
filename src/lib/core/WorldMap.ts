@@ -1,5 +1,5 @@
 import { Container } from 'pixi.js';
-import { loadAssets, sharedLoader } from './factory/assetLoader';
+import { loadAssets, sharedLoader, populateSprites, parseTextures } from './factory/assetLoader';
 import DoodleSprite from './DoodleSprite';
 
 const resourceArray = [
@@ -37,15 +37,18 @@ export class WorldMap extends Container {
      * @returns {undefined}
      */
     private init = async () => {
-        await this.loadAssets(resourceArray);
-        this.initGraphics();
+        await this.initGraphics();
     };
 
-    private initGraphics = (): void => {
-        // const { } = sharedLoader;
-
-        const bg = new DoodleSprite([sharedLoader.resources.bg1.texture, sharedLoader.resources.bg2.texture]);
-        this.addChild(bg);
+    private initGraphics = async (): Promise<void> => {
+        const propertyArray = await this.loadAssets(resourceArray).catch((err) => {
+            throw err;
+        });
+        const textureArray = parseTextures(propertyArray);
+        const spriteCollection = populateSprites(textureArray);
+        for (const sprite in spriteCollection) {
+            this.addChild(spriteCollection[sprite]);
+        }
     };
 
     /** @type {import('./factory/assetLoader').loadAssets} */
