@@ -1,4 +1,3 @@
-import { Options } from 'html-webpack-plugin';
 import { Loader, Texture } from 'pixi.js';
 import DoodleSprite, { DoodleSpriteOptions } from '../DoodleSprite';
 
@@ -6,7 +5,6 @@ import DoodleSprite, { DoodleSpriteOptions } from '../DoodleSprite';
 export const sharedLoader = Loader.shared;
 
 /** @type {RegExp} */
-const defaultRegex = /(?<=\/)[^\/]{0,}(?=\.png$)/;
 
 /**
  * @method loadAssets
