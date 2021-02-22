@@ -8,7 +8,7 @@ type offset = {
     y: number;
 };
 
-interface Options {
+export interface DoodleSpriteOptions {
     textureOffset?: offset[] | undefined;
     stopOnLastFrame: boolean;
     destroyOnLoop: boolean;
@@ -41,7 +41,7 @@ class DoodleSprite extends Sprite {
      */
     constructor(
         texture: Texture[],
-        { textureOffset, stopOnLastFrame, destroyOnLoop, swapMS }: Options = {
+        { textureOffset, stopOnLastFrame, destroyOnLoop, swapMS }: DoodleSpriteOptions = {
             stopOnLastFrame: false,
             destroyOnLoop: false,
             swapMS: 500,
