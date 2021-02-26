@@ -1,5 +1,5 @@
 import { Container } from 'pixi.js';
-import { loadAssets, sharedLoader, populateSprites, parseTextures } from './factory/assetLoader';
+import { loadAssets, populateSprites, parseTextures } from './factory/assetLoader';
 import DoodleSprite from './DoodleSprite';
 
 const resourceArray = [
