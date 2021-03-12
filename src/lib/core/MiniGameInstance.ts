@@ -14,11 +14,11 @@ export class MiniGameInstance extends Container {
     this.update = update;
     this.result = new Promise((resolve, reject) => {
       this.resultResolver = (didWin: boolean) => {
-        Ticker.shared.remove(this._tick);
+        this._removeTick();
         resolve(didWin);
       };
       this.resultRejector = (error: Error) => {
-        Ticker.shared.remove(this._tick);
+        this._removeTick();
         reject(error);
       };
     });
@@ -31,15 +31,23 @@ export class MiniGameInstance extends Container {
     Ticker.shared.add(this._tick);
   };
 
-  /** @description The function that runs the update function for the
-   * minigame. Used to remove itself by refrence on win or loss via
-   * PIXI.JS's ticker system. */
+  /** @description Removes the class's _tick method from the shared
+   * ticker.
+   */
+  _removeTick = (): void => {
+    Ticker.shared.remove(this._tick);
+  };
+
+  /** @description The wrapper function that runs the update method for
+   * the minigame. Required so that we have a refrence to remove from
+   * the shared ticker via PIXI.JS's ticker system.
+   */
   _tick = async (): Promise<void> => {
     this._update();
   };
 
   _update = async (): Promise<void> => {
-    await this.update();
+    await this.update().call(this);
     return;
   };
 }
