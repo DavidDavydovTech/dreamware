@@ -3,7 +3,7 @@ import MiniGameInstance, { MiniGameInstanceOptions } from './MiniGameInstance';
 // import * as PixiSound from 'pixi-sound';
 // import Keyboard from './keyboard';
 
-interface MiniGameOptions {
+export interface MiniGameOptions {
   minigameDuration?: number | Array<number | undefined>;
   timeoutDelay?: number | Array<number | undefined>;
   loseOnTimeout?: boolean;
