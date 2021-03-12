@@ -47,7 +47,7 @@ export class MiniGameInstance extends Container {
   }
 
   _init = async (): Promise<void> => {
-    await this.init();
+    await this.init().call(this);
     Ticker.shared.add(this._tick);
   };
 
