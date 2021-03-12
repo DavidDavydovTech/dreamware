@@ -14,10 +14,10 @@ export class MiniGameInstance extends Container {
   public minigameDuration;
 
   public result: Promise<boolean>;
-  public resultResolver: (didWin: boolean) => void;
-  public resultRejector: (error: Error) => void;
+  public resultResolver?: (didWin: boolean) => void;
+  public resultRejector?: (error: Error) => void;
 
-  public initTime: number;
+  public timeLeft: number;
 
   constructor(
     init: () => Promise<void>,
@@ -42,12 +42,14 @@ export class MiniGameInstance extends Container {
         reject(error);
       };
     });
+    // Set up essentual properties
+    this.timeLeft = minigameDuration;
     // Start initalizing the minigame.
     this._init();
   }
 
   _init = async (): Promise<void> => {
-    await this.init().call(this);
+    await this.init.call(this);
     Ticker.shared.add(this._tick);
   };
 
@@ -66,7 +68,9 @@ export class MiniGameInstance extends Container {
 
   /** @description Runs this.update along with custom minigame logic. */
   _update = async (): Promise<void> => {
-    await this.update().call(this);
+    await this.update.call(this);
     return;
   };
 }
+
+export default MiniGameInstance;
