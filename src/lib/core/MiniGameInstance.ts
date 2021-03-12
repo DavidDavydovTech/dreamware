@@ -1,9 +1,10 @@
 import { Container, Ticker } from 'pixi.js';
 
-interface MiniGameInstanceOptions {
+export interface MiniGameInstanceOptions {
   loseOnTimeout?: boolean;
   minigameDuration?: number;
   timeoutDelay?: number;
+  difficulty?: number;
 }
 
 export class MiniGameInstance extends Container {
@@ -22,7 +23,7 @@ export class MiniGameInstance extends Container {
   constructor(
     init: () => Promise<void>,
     update: () => Promise<void>,
-    { loseOnTimeout = true, timeoutDelay = 0, minigameDuration = 5000 }: MiniGameInstanceOptions = {}
+    { loseOnTimeout = true, timeoutDelay = 0, minigameDuration = 5000, difficulty = 1 }: MiniGameInstanceOptions = {}
   ) {
     super();
     // Assign parameters to properties of the same name.
