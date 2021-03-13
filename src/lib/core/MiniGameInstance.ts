@@ -1,4 +1,5 @@
-import { Container, Ticker } from 'pixi.js';
+import { Container, Ticker, Texture } from 'pixi.js';
+import DoodleSprite from './DoodleSprite';
 
 export interface MiniGameInstanceOptions {
   loseOnTimeout?: boolean;
@@ -8,17 +9,23 @@ export interface MiniGameInstanceOptions {
 }
 
 export class MiniGameInstance extends Container {
+  // Properties with parameter equivalents.
   public init;
   public update;
   public loseOnTimeout;
   public timeoutDelay;
   public minigameDuration;
-
+  public difficulty;
+  // Result properties
   public result: Promise<boolean>;
   public resultResolver?: (didWin: boolean) => void;
   public resultRejector?: (error: Error) => void;
-
+  // Additional properties
   public timeLeft: number;
+  // Stores
+  public textures: Record<string, Texture> = {};
+  public sprites: Record<string, DoodleSprite> = {};
+  public game: Record<string, unknown> = {};
 
   constructor(
     init: () => Promise<void>,
@@ -34,6 +41,7 @@ export class MiniGameInstance extends Container {
     this.loseOnTimeout = loseOnTimeout;
     this.timeoutDelay = timeoutDelay;
     this.minigameDuration = minigameDuration;
+    this.difficulty = difficulty;
     // Set up the result property/resolver
     this.result = new Promise((resolve, reject) => {
       this.resultResolver = (didWin: boolean) => {
