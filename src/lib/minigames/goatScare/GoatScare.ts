@@ -53,7 +53,7 @@ export async function init(this: MiniGameInstance): Promise<void> {
   // Generate all required sprites.
   const textures = await parseTextures(texturesArray);
   this.textures = textures;
-  const sprites = populateSprites(textures);
+  const sprites = populateSprites(textures, { regex: /.{1,}(?=[A-Z]{1,})/ });
   this.sprites = sprites;
   // Create a storage object on the class
   this.game = {};
@@ -88,6 +88,7 @@ export async function init(this: MiniGameInstance): Promise<void> {
   // How quickly the player loses "shout" power.
   game.powerLoss = 1300 / 16.66 - (this.difficulty * 300) / 16.66;
   // Background
+  console.log(sprites);
   sprites.goatBg.x = 0;
   sprites.goatBg.y = 150;
   this.addChild(sprites.goatBg);
