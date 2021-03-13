@@ -19,8 +19,8 @@ export interface MiniGameOptions {
 export class MiniGame extends Container {
   private _init: () => Promise<void> | Array<() => Promise<void> | undefined>;
   private _update: () => Promise<void> | Array<() => Promise<void> | undefined>;
-  private _minigameDuration: MiniGameOptions['minigameDuration'];
-  private _timeoutDelay: MiniGameOptions['timeoutDelay'];
+  private _minigameDuration: number | Array<number | undefined>;
+  private _timeoutDelay: number | Array<number | undefined>;
   public loseOnTimeout: boolean;
   public maxDifficulty: number;
   public difficulty = 1;
@@ -41,14 +41,15 @@ export class MiniGame extends Container {
     this.maxDifficulty = maxDifficulty;
   }
 
-  _findValidValue = (arr: Array<any | undefined>, propertyName: string): any => {
+  _findValidValue = <T>(arr: Array<T | undefined>, propertyName: string): T => {
     const targetValue = arr[this.difficulty];
-    if (targetValue[this.difficulty] !== undefined) {
-      return targetValue[this.difficulty];
+    if (targetValue !== undefined) {
+      return targetValue;
     } else {
       for (let i = 0; i < arr.length; ++i) {
-        if (arr[i] !== undefined) {
-          return arr[i];
+        const currentValue = arr[i];
+        if (currentValue !== undefined) {
+          return currentValue;
         }
       }
       throw new Error(`Tried to get a value for property ${propertyName} but every value is undefined!`);
