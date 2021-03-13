@@ -7,12 +7,13 @@ import './style.css';
 
 const gameWidth = 800;
 const gameHeight = 800;
-settings.SCALE_MODE = SCALE_MODES.NEAREST;
+settings.SCALE_MODE = SCALE_MODES.LINEAR;
 
 const app = new Application({
   backgroundColor: 0xffffff, // 0xd3d3d3
   width: gameWidth,
   height: gameHeight,
+  antialias: true,
 });
 
 const stage = app.stage;
@@ -106,3 +107,5 @@ function resizeCanvas(): void {
 
   window.addEventListener('resize', resize);
 }
+
+export default app;
