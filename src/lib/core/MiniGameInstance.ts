@@ -29,7 +29,7 @@ export class MiniGameInstance extends Container {
 
   constructor(
     init: () => Promise<void>,
-    update: () => Promise<void>,
+    update: (deltaTime: number) => Promise<void>,
     { loseOnTimeout = true, timeoutDelay = 0, minigameDuration = 5000, difficulty = 1 }: MiniGameInstanceOptions = {}
   ) {
     super();
@@ -73,13 +73,13 @@ export class MiniGameInstance extends Container {
   /** @description The wrapper function that runs the update method for
    * the minigame. Required so that we have a refrence to remove from
    * the shared ticker via PIXI.JS's ticker system. */
-  _tick = async (): Promise<void> => {
-    this._update();
+  _tick = async (deltaTime: number): Promise<void> => {
+    this._update(deltaTime);
   };
 
   /** @description Runs this.update along with custom minigame logic. */
-  _update = async (): Promise<void> => {
-    await this.update.call(this);
+  _update = async (deltaTime: number): Promise<void> => {
+    await this.update.call(this, deltaTime);
     return;
   };
 }

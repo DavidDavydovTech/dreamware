@@ -18,7 +18,7 @@ export interface MiniGameOptions {
 /** @description A constructor that can be used to get minigame instantiations.*/
 export class MiniGame extends Container {
   private _init: () => Promise<void> | Array<() => Promise<void> | undefined>;
-  private _update: () => Promise<void> | Array<() => Promise<void> | undefined>;
+  private _update: (deltaTime: number) => Promise<void> | Array<(deltaTime: number) => Promise<void> | undefined>;
   private _minigameDuration: number | Array<number | undefined>;
   private _timeoutDelay: number | Array<number | undefined>;
   public loseOnTimeout: boolean;
@@ -27,7 +27,7 @@ export class MiniGame extends Container {
 
   constructor(
     init: () => Promise<void> | Array<() => Promise<void> | undefined>,
-    update: () => Promise<void> | Array<() => Promise<void> | undefined>,
+    update: (deltaTime: number) => Promise<void> | Array<(deltaTime: number) => Promise<void> | undefined>,
     { minigameDuration = 5000, timeoutDelay = 50, loseOnTimeout = true, maxDifficulty = 3 }: MiniGameOptions = {}
   ) {
     super();
