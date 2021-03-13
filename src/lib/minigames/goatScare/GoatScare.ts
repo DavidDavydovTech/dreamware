@@ -18,8 +18,8 @@ export class Goat extends DoodleSprite {
   ) {
     super(textures, doodleParams);
     this.pivot.set(this.width / 2, this.height);
-    this._init();
     this.goatArrayRefrence = goatArrayRefrence;
+    this._init();
     this.goatArrayRefrence.push(this);
   }
 
@@ -58,6 +58,7 @@ export async function init(this: MiniGameInstance): Promise<void> {
   // Create a storage object on the class
   this.game = {};
   const game = this.game;
+  game.didWin = false;
   game.goatIndex = 0;
   game.positionPrev = 0;
   game.positions = [
@@ -81,14 +82,9 @@ export async function init(this: MiniGameInstance): Promise<void> {
   game.direction = 1;
   game.power = 0;
   game.powerLoss;
-  // Set up interactivity
-  this.on('pointermove', (val: any) => {
-    console.log(val);
-  });
   // How quickly the player loses "shout" power.
   game.powerLoss = 1300 / 16.66 - (this.difficulty * 300) / 16.66;
   // Background
-  console.log(sprites);
   sprites.goatBg.x = 0;
   sprites.goatBg.y = 150;
   this.addChild(sprites.goatBg);
@@ -138,10 +134,10 @@ export async function init(this: MiniGameInstance): Promise<void> {
 }
 
 export async function update(this: MiniGameInstance, deltaTime: number): Promise<void> {
-  const { goats, goatIndex: currentGoatIndex, power } = this.game;
+  const { goats, goatIndex: currentGoatIndex, power, positions, positionPrev, direction } = this.game;
   const game = this.game;
 
-  goats.forEach((goat: any) => goat.update(deltaTime));
+  goats.forEach((goat: Goat) => goat.update(deltaTime));
   if (goats[currentGoatIndex].scareNext) {
     if (currentGoatIndex + 1 < goats.length) {
       goats[++game.goatIndex].isScared = true;
@@ -150,40 +146,40 @@ export async function update(this: MiniGameInstance, deltaTime: number): Promise
     }
   }
 
-  // let validPosition;
-  // const { x, y } = mousePosition;
-  // for (const positionIndex in positions) {
-  //   const position = positions[positionIndex];
-  //   if (position.x(x) && position.y(y)) {
-  //     validPosition = parseInt(positionIndex);
-  //     break;
-  //   }
-  // }
+  let validPosition;
+  const { x, y } = this.interactiveData;
+  for (const positionIndex in positions) {
+    const position = positions[positionIndex];
+    if (position.x(x) && position.y(y)) {
+      validPosition = parseInt(positionIndex);
+      break;
+    }
+  }
 
-  // if (typeof validPosition === 'number' && validPosition !== positionPrev) {
-  //   const nextValidPosition = (positionPrev + direction) % positions.length;
-  //   const lastValidPosition = (positionPrev - direction) % positions.length;
-  //   if (nextValidPosition === validPosition) {
-  //     this.game.power += 1;
-  //   } else if (lastValidPosition === validPosition) {
-  //     direction *= -1;
-  //   }
-  //   positionPrev = validPosition;
-  // }
+  if (typeof validPosition === 'number' && validPosition !== positionPrev) {
+    const nextValidPosition = (positionPrev + direction) % positions.length;
+    const lastValidPosition = (positionPrev - direction) % positions.length;
+    if (nextValidPosition === validPosition) {
+      this.game.power += 1;
+    } else if (lastValidPosition === validPosition) {
+      this.game.direction *= -1;
+    }
+    this.game.positionPrev = validPosition;
+  }
 
-  // if (power < 0) {
-  //   power = 0;
-  // } else if (power > 10) {
-  //   power = 10;
-  //   goats[0].isScared = true;
-  //   sprites.goatSneak.alpha = 0;
-  //   sprites.goatSpook.alpha = 1;
-  //   if (!didWin) {
-  //     this.winOnTimeout = true;
-  //   }
-  //   didWin = true;
-  // } else {
-  //   power -= deltaMS / powerLossMS;
-  //   sprites.goatSneak.scale.set(1 + 0.05 * (power / 10), 0.5 + 0.5 * (1 - power / 10));
-  // }
+  if (power < 0) {
+    this.game.power = 0;
+  } else if (power > 10) {
+    this.game.power = 10;
+    goats[0].isScared = true;
+    this.sprites.goatSneak.alpha = 0;
+    this.sprites.goatSpook.alpha = 1;
+    if (game.didWin === false) {
+      this.loseOnTimeout = false;
+      game.didWin = true;
+    }
+  } else {
+    this.game.power -= deltaTime / this.game.powerLoss;
+    this.sprites.goatSneak.scale.set(1 + 0.05 * (this.game.power / 10), 0.5 + 0.5 * (1 - this.game.power / 10));
+  }
 }
