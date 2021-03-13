@@ -26,6 +26,8 @@ export class MiniGameInstance extends Container {
     { loseOnTimeout = true, timeoutDelay = 0, minigameDuration = 5000, difficulty = 1 }: MiniGameInstanceOptions = {}
   ) {
     super();
+    // Make minigame interactive
+    this.interactive = true;
     // Assign parameters to properties of the same name.
     this.init = init;
     this.update = update;
