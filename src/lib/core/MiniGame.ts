@@ -1,5 +1,5 @@
-import { Container, Graphics } from 'pixi.js';
-import MiniGameInstance, { MiniGameInstanceOptions } from './MiniGameInstance';
+import { Container } from 'pixi.js';
+import MiniGameInstance from './MiniGameInstance';
 // import * as PixiSound from 'pixi-sound';
 // import Keyboard from './keyboard';
 
@@ -28,15 +28,7 @@ export class MiniGame extends Container {
   constructor(
     init: () => Promise<void> | Array<() => Promise<void> | undefined>,
     update: () => Promise<void> | Array<() => Promise<void> | undefined>,
-    {
-      minigameDuration = 5000,
-      timeoutDelay = 50,
-      loseOnTimeout = true,
-      maxDifficulty = 3,
-      textureArray = [],
-      preloadTextures = false,
-      preloadSprites = false,
-    }: MiniGameOptions = {}
+    { minigameDuration = 5000, timeoutDelay = 50, loseOnTimeout = true, maxDifficulty = 3 }: MiniGameOptions = {}
   ) {
     super();
     // Assign parameters to private properties of the same name.
