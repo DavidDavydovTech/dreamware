@@ -27,13 +27,17 @@ window.onload = async (): Promise<void> => {
   // const mainMenu = new WorldMap();
   // stage.addChild(mainMenu);
   const minigame = new MiniGame(init, update);
-  stage.addChild(minigame);
+  stage.addChild(minigame.instance);
 };
 
 async function loadGameAssets(): Promise<void> {
   return new Promise((res, rej) => {
     const loader = Loader.shared;
-    loader.add(assetsObject);
+    for (const asset in assetsObject) {
+      // @ts-ignore - Typescript is stupid and insists that using the key name of a known key-value pair produces a type of any...
+      const url = `assets/${assetsObject[asset]}`;
+      loader.add(asset, url);
+    }
 
     loader.onComplete.once(() => {
       res();
