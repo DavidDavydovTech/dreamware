@@ -54,7 +54,7 @@ export class MiniGame extends Container {
     if (targetValue[this.difficulty] !== undefined) {
       return targetValue[this.difficulty];
     } else {
-      for (let i = arr.length; i > 0; --i) {
+      for (let i = 0; i < arr.length; ++i) {
         if (arr[i] !== undefined) {
           return arr[i];
         }
