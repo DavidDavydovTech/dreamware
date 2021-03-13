@@ -1,6 +1,8 @@
 import { Application, Loader, settings, SCALE_MODES } from 'pixi.js';
-import WorldMap from './lib/core/WorldMap';
-
+// import WorldMap from './lib/core/WorldMap';
+import MiniGame from './lib/core/MiniGame';
+import { assetsObject } from './lib/minigames/goatScare/GoatScare.assets';
+import { init, update } from './lib/minigames/goatScare/GoatScare';
 import './style.css';
 
 const gameWidth = 800;
@@ -8,39 +10,41 @@ const gameHeight = 800;
 settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
 const app = new Application({
-    backgroundColor: 0xffffff, // 0xd3d3d3
-    width: gameWidth,
-    height: gameHeight,
+  backgroundColor: 0xffffff, // 0xd3d3d3
+  width: gameWidth,
+  height: gameHeight,
 });
 
 const stage = app.stage;
 
 window.onload = async (): Promise<void> => {
-    await loadGameAssets();
+  await loadGameAssets();
 
-    document.body.appendChild(app.view);
+  document.body.appendChild(app.view);
 
-    resizeCanvas();
+  resizeCanvas();
 
-    const mainMenu = new WorldMap();
-    stage.addChild(mainMenu);
+  // const mainMenu = new WorldMap();
+  // stage.addChild(mainMenu);
+  const minigame = new MiniGame(init, update);
+  stage.addChild(minigame);
 };
 
 async function loadGameAssets(): Promise<void> {
-    return new Promise((res, rej) => {
-        const loader = Loader.shared;
-        loader.add('rabbit', './assets/simpleSpriteSheet.json');
+  return new Promise((res, rej) => {
+    const loader = Loader.shared;
+    loader.add(assetsObject);
 
-        loader.onComplete.once(() => {
-            res();
-        });
-
-        loader.onError.once(() => {
-            rej();
-        });
-
-        loader.load();
+    loader.onComplete.once(() => {
+      res();
     });
+
+    loader.onError.once(() => {
+      rej();
+    });
+
+    loader.load();
+  });
 }
 
 // Source: https://gist.github.com/Beefster09/7264303ee4b4b2086f372f1e70e8eddd
@@ -77,24 +81,24 @@ async function loadGameAssets(): Promise<void> {
 // app.stage.filters = [scaleFilter];
 
 function resizeCanvas(): void {
-    const gameRatio = gameWidth / gameHeight;
-    const resize = () => {
-        let w, h, scale;
-        const windowRatio = window.innerWidth / window.innerHeight;
-        if (windowRatio >= gameRatio) {
-            h = window.innerHeight || gameHeight;
-            scale = h / gameHeight;
-            w = gameWidth * scale;
-        } else {
-            w = window.innerWidth || gameWidth;
-            scale = w / gameWidth;
-            h = gameHeight * scale;
-        }
-        app.renderer.resize(w, h);
-        app.stage.scale.set(scale, scale);
-    };
+  const gameRatio = gameWidth / gameHeight;
+  const resize = () => {
+    let w, h, scale;
+    const windowRatio = window.innerWidth / window.innerHeight;
+    if (windowRatio >= gameRatio) {
+      h = window.innerHeight || gameHeight;
+      scale = h / gameHeight;
+      w = gameWidth * scale;
+    } else {
+      w = window.innerWidth || gameWidth;
+      scale = w / gameWidth;
+      h = gameHeight * scale;
+    }
+    app.renderer.resize(w, h);
+    app.stage.scale.set(scale, scale);
+  };
 
-    resize();
+  resize();
 
-    window.addEventListener('resize', resize);
+  window.addEventListener('resize', resize);
 }
