@@ -1,4 +1,4 @@
-const assets = {
+export const assetsObject = {
   goatBgA: 'img/miro/goatscare/GOAT_BG_A.png',
   goatBgB: 'img/miro/goatscare/GOAT_BG_B.png',
   goatBushA: 'img/miro/goatscare/GOAT_BUSH_A.png',
@@ -17,4 +17,23 @@ const assets = {
   goatSpinB: 'img/miro/goatscare/SPIN_B.png',
 };
 
-export default assets;
+export const texturesArray = [
+  'goatBgA',
+  'goatBgB',
+  'goatBushA',
+  'goatBushB',
+  'goatCalmA',
+  'goatCalmB',
+  'goatGroundA',
+  'goatGroundB',
+  'goatScaredA',
+  'goatScaredB',
+  'goatSneakA',
+  'goatSneakB',
+  'goatSpookA',
+  'goatSpookB',
+  'goatSpinA',
+  'goatSpinB',
+];
+
+export default assetsObject;
