@@ -1,3 +1,4 @@
+import App from '../../index';
 import { Container, Ticker, Texture } from 'pixi.js';
 import DoodleSprite from './DoodleSprite';
 
@@ -26,6 +27,7 @@ export class MiniGameInstance extends Container {
   public textures: Record<string, Texture> = {};
   public sprites: Record<string, DoodleSprite> = {};
   public game: Record<string, any> = {};
+  public interactiveData: { x: number; y: number } = { x: 400, y: 400 };
 
   constructor(
     init: () => Promise<void>,
@@ -53,8 +55,13 @@ export class MiniGameInstance extends Container {
         reject(error);
       };
     });
-    // Set up essentual properties
+    // Set up other essentual properties
     this.timeLeft = minigameDuration;
+    // Set up interactivity
+    this.on('pointermove', (val: any) => {
+      this.interactiveData.x = val.data.global.x / App.stage.scale.x;
+      this.interactiveData.y = val.data.global.y / App.stage.scale.y;
+    });
     // Start initalizing the minigame.
     this._init();
   }
