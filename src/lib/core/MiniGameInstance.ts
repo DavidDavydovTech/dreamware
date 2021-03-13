@@ -25,7 +25,7 @@ export class MiniGameInstance extends Container {
   // Stores
   public textures: Record<string, Texture> = {};
   public sprites: Record<string, DoodleSprite> = {};
-  public game: Record<string, unknown> = {};
+  public game: Record<string, any> = {};
 
   constructor(
     init: () => Promise<void>,
