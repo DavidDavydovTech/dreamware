@@ -62,27 +62,27 @@ export async function init(this: MiniGameInstance): Promise<void> {
   game.positionPrev = 0;
   game.positions = [
     {
-      x: (val) => val <= 380,
-      y: (val) => val <= 380,
+      x: (val: number) => val <= 380,
+      y: (val: number) => val <= 380,
     },
     {
-      x: (val) => val >= 420,
-      y: (val) => val <= 380,
+      x: (val: number) => val >= 420,
+      y: (val: number) => val <= 380,
     },
     {
-      x: (val) => val >= 420,
-      y: (val) => val >= 420,
+      x: (val: number) => val >= 420,
+      y: (val: number) => val >= 420,
     },
     {
-      x: (val) => val <= 380,
-      y: (val) => val >= 420,
+      x: (val: number) => val <= 380,
+      y: (val: number) => val >= 420,
     },
   ];
   game.direction = 1;
   game.power = 0;
   game.powerLoss;
   // Set up interactivity
-  this.on('pointermove', (val) => {
+  this.on('pointermove', (val: any) => {
     console.log(val);
   });
   // How quickly the player loses "shout" power.
@@ -136,11 +136,11 @@ export async function init(this: MiniGameInstance): Promise<void> {
   }
 }
 
-export function update(deltaTime: number): void {
+export async function update(this: MiniGameInstance, deltaTime: number): Promise<void> {
   const { goats, goatIndex: currentGoatIndex, power } = this.game;
   const game = this.game;
 
-  goats.forEach((goat) => goat.update(deltaTime));
+  goats.forEach((goat: any) => goat.update(deltaTime));
   if (goats[currentGoatIndex].scareNext) {
     if (currentGoatIndex + 1 < goats.length) {
       goats[++game.goatIndex].isScared = true;
