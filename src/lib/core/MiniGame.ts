@@ -10,6 +10,7 @@ export interface MiniGameOptions {
 
   maxDifficulty?: number;
 
+  autoIncrementDifficulty?: boolean;
   textureArray?: [];
   preloadTextures?: boolean;
   preloadSprites?: boolean;
@@ -24,11 +25,18 @@ export class MiniGame extends Container {
   public loseOnTimeout: boolean;
   public maxDifficulty: number;
   public difficulty = 1;
+  public autoIncrementDifficulty: boolean;
 
   constructor(
     init: () => Promise<void> | Array<() => Promise<void> | undefined>,
     update: (deltaTime: number) => Promise<void> | Array<(deltaTime: number) => Promise<void> | undefined>,
-    { minigameDuration = 5000, timeoutDelay = 50, loseOnTimeout = true, maxDifficulty = 3 }: MiniGameOptions = {}
+    {
+      minigameDuration = 5000,
+      timeoutDelay = 50,
+      loseOnTimeout = true,
+      maxDifficulty = 3,
+      autoIncrementDifficulty = true,
+    }: MiniGameOptions = {}
   ) {
     super();
     // Assign parameters to private properties of the same name.
@@ -39,6 +47,7 @@ export class MiniGame extends Container {
     // Assign parameters to properties of the same name.
     this.loseOnTimeout = loseOnTimeout;
     this.maxDifficulty = maxDifficulty;
+    this.autoIncrementDifficulty = autoIncrementDifficulty;
   }
 
   _findValidValue = <T>(arr: Array<T | undefined>, propertyName: string): T => {
@@ -85,6 +94,7 @@ export class MiniGame extends Container {
       loseOnTimeout: this.loseOnTimeout,
       difficulty: this.difficulty,
     };
+    if (this.autoIncrementDifficulty) this.incrementDiffuclty();
     return new MiniGameInstance(this.init, this.update, options);
   }
 
