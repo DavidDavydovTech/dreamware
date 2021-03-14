@@ -22,9 +22,9 @@ class DoodleSprite extends Sprite {
   private _destroy;
   protected maxMS: number;
   protected swapMS: number;
-  protected trueX: number;
-  protected trueY: number;
   protected ticker: Ticker = Ticker.shared;
+  public trueX: number;
+  public trueY: number;
   public textureOffsetActive: boolean;
   public offset: offset = { x: 0, y: 0 };
   public destroyOnLoop: boolean;
