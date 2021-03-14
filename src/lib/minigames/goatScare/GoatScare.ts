@@ -103,7 +103,7 @@ export async function init(this: MiniGameInstance): Promise<void> {
   this.addChild(sprites.goatBush);
   // goatSpin
   sprites.goatSpin.x = 800 / 2 - sprites.goatSpin.width / 2;
-  sprites.goatSpin.y = 100;
+  sprites.goatSpin.y = 320;
   this.addChild(sprites.goatSpin);
   // Person Sneak
   sprites.goatSneak.x = 95 + sprites.goatSneak.width / 2;
