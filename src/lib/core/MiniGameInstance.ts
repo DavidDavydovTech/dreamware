@@ -78,6 +78,7 @@ export class MiniGameInstance extends Container {
   set didWin(val: boolean) {
     this.timeLeft = -1;
     this._didWin = val;
+    this.loseOnTimeout = !val;
   }
 
   _init = async (): Promise<void> => {
