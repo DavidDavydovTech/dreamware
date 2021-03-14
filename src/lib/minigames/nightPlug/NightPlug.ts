@@ -36,8 +36,8 @@ export async function update(this: MiniGameInstance, deltaTime: number): Promise
   if (!didWin) {
     const { plugArmDark, plugSocket } = sprites;
 
-    plugArmDark.x = plugArmDark.x + (x - plugArmDark.x) / 5 + 5 * this.difficulty;
-    plugArmDark.y = plugArmDark.y + (y - plugArmDark.y) / 5 + 5 * this.difficulty;
+    plugArmDark.x = plugArmDark.x + (x - plugArmDark.x) / (deltaTime * 5) + 5 * this.difficulty;
+    plugArmDark.y = plugArmDark.y + (y - plugArmDark.y) / (deltaTime * 5) + 5 * this.difficulty;
     if (plugArmDark.y < plugPivotY + 50) plugArmDark.y = plugPivotY + 50;
 
     const distToPlug = (Math.abs(plugArmDark.x - plugSocket.x) + Math.abs(plugArmDark.y - plugSocket.y)) / 1.45;
