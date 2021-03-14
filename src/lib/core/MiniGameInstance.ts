@@ -19,9 +19,14 @@ export class MiniGameInstance extends Container {
   public difficulty;
   // Result properties
   public result: Promise<boolean>;
-  public resultResolver?: (didWin: boolean) => void;
-  public resultRejector?: (error: Error) => void;
+  public resultResolver: (didWin: boolean) => void = () => {
+    throw new Error('ResultResolver was not defined.');
+  };
+  public resultRejector: (error: Error) => void = () => {
+    throw new Error('resultRejector was not defined.');
+  };
   // Additional properties
+  private _didWin = false;
   public timeLeft: number;
   // Stores
   public textures: Record<string, Texture> = {};
@@ -56,7 +61,7 @@ export class MiniGameInstance extends Container {
       };
     });
     // Set up other essentual properties
-    this.timeLeft = minigameDuration;
+    this.timeLeft = minigameDuration / 16.66;
     // Set up interactivity
     this.on('pointermove', (val: any) => {
       this.interactiveData.x = val.data.global.x / App.stage.scale.x;
@@ -64,6 +69,15 @@ export class MiniGameInstance extends Container {
     });
     // Start initalizing the minigame.
     this._init();
+  }
+
+  get didWin(): boolean {
+    return this._didWin;
+  }
+
+  set didWin(val: boolean) {
+    this.timeLeft = -1;
+    this._didWin = val;
   }
 
   _init = async (): Promise<void> => {
@@ -87,6 +101,16 @@ export class MiniGameInstance extends Container {
   /** @description Runs this.update along with custom minigame logic. */
   _update = async (deltaTime: number): Promise<void> => {
     await this.update.call(this, deltaTime);
+    this.timeLeft -= deltaTime;
+    if (this.timeLeft < 0) {
+      if (this.loseOnTimeout !== !this._didWin) this.didWin = !this.loseOnTimeout;
+      if (this.timeoutDelay < 0) {
+        this.resultResolver(this.didWin);
+        console.log(this.didWin);
+      } else {
+        this.timeoutDelay -= deltaTime * 16.66;
+      }
+    }
     return;
   };
 }
