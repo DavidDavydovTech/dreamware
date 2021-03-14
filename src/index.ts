@@ -1,8 +1,8 @@
 import { Application, Loader, settings, SCALE_MODES } from 'pixi.js';
 // import WorldMap from './lib/core/WorldMap';
 import MiniGame from './lib/core/MiniGame';
-import { assetsObject } from './lib/minigames/goatScare/GoatScare.assets';
-import { init, update } from './lib/minigames/goatScare/GoatScare';
+import { assetsObject } from './lib/minigames/nightPlug/NightPlug.assets';
+import { init, update } from './lib/minigames/nightPlug/NightPlug';
 import './style.css';
 
 const gameWidth = 800;
